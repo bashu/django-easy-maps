@@ -3,6 +3,9 @@ django-easy-maps
 ================
 
 This app makes it easy to display a map for given address in django templates.
+No API keys, manual geocoding, html/js copy-pasting or django model
+changes is needed.
+
 The license is MIT.
 
 Installation
@@ -13,40 +16,35 @@ Installation
     pip install geopy
     pip install django-easy-maps
 
+Then add 'easy_maps' to INSTALLED_APPS and run ``./manage.py syncdb``
+(or ``./manage.py migrate easy_maps`` if South is in use)
+
 Usage
 =====
 
-1. Add 'easy_maps' to INSTALLED_APPS
+This app provides an ``easy_map`` template tag::
 
-2. Run ``./manage.py syncdb`` (or ``./manage.py migrate easy_maps``
-   if south is in use)
+    {% easy_map <address> [<width> <height>] [<zoom>] [using <template_name>] %}
 
-3. Use the ``easy_map`` templatetag::
+Examples::
 
-       {% load easy_maps_tags %}
+    {% load easy_maps_tags %}
 
-       <!-- Default map with 300x400 dimensions -->
-       {% easy_map "Russia, Ekaterinburg, Mira 32" 300 400 %}
+    <!-- Default map with 300x400 dimensions -->
+    {% easy_map "Russia, Ekaterinburg, Mira 32" 300 400 %}
 
-       <!-- Variable address, custom detail level and custom template -->
-       {% easy_map address 200 200 5 using 'map.html' %}
+    <!-- Variable address, custom detail level and custom template -->
+    {% easy_map address 200 200 5 using 'map.html' %}
 
-   It has the following signature::
+The coordinates for map will be obtained using google geocoder on first
+access. Then they'll be cached in DB. Django's template caching can be used
+later in order to prevent DB access on each map render::
 
-       {% easy_map <address> [<width> <height>] [<zoom>] [using <template_name>] %}
+    {% load easy_maps_tags cache %}
 
-   The coordinates for map will be obtained using google geocoder on first
-   access. Then they'll be cached in DB. Django's template caching can be used
-   later in order to prevent DB access on each map render::
-
-       {% load easy_maps_tags cache %}
-
-       {% cache 600 my_map firm.address %}
-           {% easy_map firm.address 300 400 %}
-       {% endcache %}
-
-That's all! No API keys, manual geocoding, html/js copy-pasting or
-django model changes is needed.
+    {% cache 600 my_map firm.address %}
+        {% easy_map firm.address 300 400 %}
+    {% endcache %}
 
 Customization
 =============
@@ -64,16 +62,22 @@ The template will have 'map' (it is the ``easy_maps.models.Address`` instance),
 'width', 'height' and 'zoom' variables. The outer template context is passed
 to 'map.html' as well.
 
+The default template can be found here:
+https://bitbucket.org/kmike/django-easy-maps/src/tip/easy_maps/templates/easy_maps/map.html
+
+You can start your own template from scratch or just override some blocks in the
+default template.
+
 Address model
 =============
 
 easy_maps.models.Address model has the following fields:
 
-* address
-* computed address
+* address - the requested address
+* computed_address - address returned by geocoder
 * longtitude
 * latitude
-* geocode_error
+* geocode_error - True if geocoder wasn't able to handle the address
 
 Contributing
 ============
@@ -85,4 +89,3 @@ just suggestions are welcome!
 Source code: https://bitbucket.org/kmike/django-easy-maps/
 
 Bug tracker: https://bitbucket.org/kmike/django-easy-maps/issues/new
-
