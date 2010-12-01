@@ -50,17 +50,14 @@ Customization
 =============
 
 If the default map template is not sufficient then custom map template can be
-used::
+used. Examples::
 
    {% easy_map address using 'map.html' %}
-
-   <!-- or -->
-
    {% easy_map address 200 300 5 using 'map.html' %}
 
 The template will have 'map' (it is the ``easy_maps.models.Address`` instance),
 'width', 'height' and 'zoom' variables. The outer template context is passed
-to 'map.html' as well.
+to rendered template as well.
 
 The default template can be found here:
 https://bitbucket.org/kmike/django-easy-maps/src/tip/easy_maps/templates/easy_maps/map.html
@@ -68,10 +65,13 @@ https://bitbucket.org/kmike/django-easy-maps/src/tip/easy_maps/templates/easy_ma
 You can start your own template from scratch or just override some blocks in the
 default template.
 
+Please refer to http://code.google.com/apis/maps/documentation/javascript/ for
+detailed Google Maps JavaScript API help.
+
 Address model
 =============
 
-easy_maps.models.Address model has the following fields:
+``easy_maps.models.Address`` model has the following fields:
 
 * address - the requested address
 * computed_address - address returned by geocoder
