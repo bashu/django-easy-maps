@@ -1,0 +1,22 @@
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<div id="map-canvas-{{ map.pk }}" style="width: {{ width }}; height: {{ height }}}" class="easy-map-googlemap"></div>
+
+<script type="text/javascript">
+    function initialize() {
+        var latlng = new google.maps.LatLng({{ map.latitude }}, {{ map.longtitude }});
+        var myOptions = {
+            zoom: {{ zoom }},
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var mapElem = document.getElementById("map-canvas-{{ map.pk }}");
+        var map = new google.maps.Map(mapElem, myOptions);
+
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            title: "{{ map.address }}"
+        });
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
