@@ -11,7 +11,8 @@ class Address(models.Model):
     def fill_geocode_data(self):
         try:
             g = geocoders.Google(resource='maps')
-            self.computed_address, (self.latitude, self.longtitude,) = g.geocode(self.address)
+            address = self.address.encode('utf8')
+            self.computed_address, (self.latitude, self.longtitude,) = g.geocode(address)
             self.geocode_error = False
         except UnboundLocalError:
             self.geocode_error = True
