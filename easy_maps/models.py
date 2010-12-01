@@ -14,7 +14,7 @@ class Address(models.Model):
             address = self.address.encode('utf8')
             self.computed_address, (self.latitude, self.longtitude,) = g.geocode(address)
             self.geocode_error = False
-        except UnboundLocalError:
+        except (UnboundLocalError, ValueError,):
             self.geocode_error = True
 
     def save(self, *args, **kwargs):
