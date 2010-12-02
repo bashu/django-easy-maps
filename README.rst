@@ -79,6 +79,27 @@ Address model
 * latitude
 * geocode_error - True if geocoder wasn't able to handle the address
 
+Admin address preview
+=====================
+
+django-easy-maps provides basic widget that displays a map under the address
+field. It can be used in admin for map previews. Example usage::
+
+    from django import forms
+    from django.contrib import admin
+    from easy_maps.widgets import AddressWithMapWidget
+    from firms.models import Firm
+
+    class FirmAdmin(admin.ModelAdmin):
+        class form(forms.ModelForm):
+            class Meta:
+                widgets = {
+                    'address': AddressWithMapWidget({'class': 'vTextField'})
+                }
+
+    admin.site.register(Firm, FirmAdmin)
+
+
 Contributing
 ============
 
