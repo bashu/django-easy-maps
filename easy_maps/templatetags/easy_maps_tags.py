@@ -45,7 +45,7 @@ class EasyMapNode(template.Node):
             address = self.address.resolve(context)
             template_name = self.template_name.resolve(context)
 
-            map, _ = Address.objects.get_or_create(address=address)
+            map, _ = Address.objects.get_or_create(address=address or '')
             context.update({
                 'map': map,
                 'width': self.width,

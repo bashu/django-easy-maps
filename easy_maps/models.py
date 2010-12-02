@@ -1,5 +1,8 @@
 from django.db import models
+from django.utils.encoding import smart_str
 from geopy import geocoders
+
+
 
 class Address(models.Model):
     address = models.CharField(max_length=255, db_index=True)
@@ -9,9 +12,12 @@ class Address(models.Model):
     geocode_error = models.BooleanField(default=False)
 
     def fill_geocode_data(self):
+        if not self.address:
+            self.geocode_error = True
+            return
         try:
             g = geocoders.Google(resource='maps')
-            address = self.address.encode('utf8')
+            address = smart_str(self.address)
             self.computed_address, (self.latitude, self.longtitude,) = g.geocode(address)
             self.geocode_error = False
         except (UnboundLocalError, ValueError,):

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from distutils.core import setup
-version='0.5.3'
+version='0.5.4'
 
 setup(
     name = 'django-easy-maps',
