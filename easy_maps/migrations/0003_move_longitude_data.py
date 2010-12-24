@@ -7,17 +7,17 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-		# Migrate longtitude data to longitude
-		for address in orm.Address.objects.all():
-			address.longitude = address.longtitude
-			address.save()
+        # Migrate longtitude data to longitude
+        for address in orm.Address.objects.all():
+            address.longitude = address.longtitude
+            address.save()
 
 
     def backwards(self, orm):
-		# Migrate longitude data to longtitude
+        # Migrate longitude data to longtitude
         for address in orm.Address.objects.all():
-			address.longtitude = address.longitude
-			address.save()
+            address.longtitude = address.longitude
+            address.save()
 
 
     models = {
