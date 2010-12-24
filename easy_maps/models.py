@@ -8,7 +8,6 @@ class Address(models.Model):
     address = models.CharField(max_length=255, db_index=True)
     computed_address = models.CharField(max_length=255, null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
-    longtitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     geocode_error = models.BooleanField(default=False)
 
