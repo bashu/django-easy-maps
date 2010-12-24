@@ -17,7 +17,7 @@
     <!-- Map creation script -->
     <script type="text/javascript">
         function initialize_map_{{ map.pk }}() {
-            var latlng = new google.maps.LatLng({{ map.latitude }}, {{ map.longtitude }});
+            var latlng = new google.maps.LatLng({{ map.latitude|stringformat:"f" }}, {{ map.longitude|stringformat:"f" }});
             var mapElem = document.getElementById("map-canvas-{{ map.pk }}");
 
             {% block map_options_js %}

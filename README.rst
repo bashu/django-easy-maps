@@ -75,7 +75,7 @@ Address model
 
 * address - the requested address
 * computed_address - address returned by geocoder
-* longtitude
+* longitude
 * latitude
 * geocode_error - True if geocoder wasn't able to handle the address
 
