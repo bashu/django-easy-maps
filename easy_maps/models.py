@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.encoding import smart_str
 from geopy import geocoders
@@ -16,7 +17,10 @@ class Address(models.Model):
             self.geocode_error = True
             return
         try:
-            g = geocoders.Google(resource='maps')
+            if hasattr(settings, "EASY_MAPS_GOOGLE_KEY"):
+                g = geocoders.Google(settings.EASY_MAPS_GOOGLE_KEY)
+            else:
+                g = geocoders.Google(resource='maps')
             address = smart_str(self.address)
             self.computed_address, (self.latitude, self.longitude,) = g.geocode(address)
             self.geocode_error = False

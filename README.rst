@@ -19,6 +19,14 @@ Installation
 Then add 'easy_maps' to INSTALLED_APPS and run ``./manage.py syncdb``
 (or ``./manage.py migrate easy_maps`` if South is in use)
 
+Settings
+========
+
+If working on localhost you can run into Google Maps API lockdown. If this happens
+then create a EASY_MAPS_GOOGLE_KEY in your settings.py file::
+
+    EASY_MAPS_GOOGLE_KEY = "your-google-maps-api-key"
+
 Usage
 =====
 
