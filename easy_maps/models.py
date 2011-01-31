@@ -17,7 +17,7 @@ class Address(models.Model):
             self.geocode_error = True
             return
         try:
-            if hasattr(settings, "EASY_MAPS_GOOGLE_KEY"):
+            if hasattr(settings, "EASY_MAPS_GOOGLE_KEY") and settings.EASY_MAPS_GOOGLE_KEY:
                 g = geocoders.Google(settings.EASY_MAPS_GOOGLE_KEY)
             else:
                 g = geocoders.Google(resource='maps')
