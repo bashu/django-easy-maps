@@ -3,8 +3,6 @@ from django.db import models
 from django.utils.encoding import smart_str
 from geopy import geocoders
 
-
-
 class Address(models.Model):
     address = models.CharField(max_length=255, db_index=True)
     computed_address = models.CharField(max_length=255, null=True, blank=True)
@@ -24,7 +22,7 @@ class Address(models.Model):
             address = smart_str(self.address)
             self.computed_address, (self.latitude, self.longitude,) = g.geocode(address)
             self.geocode_error = False
-        except (UnboundLocalError, ValueError,):
+        except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
             self.geocode_error = True
 
     def save(self, *args, **kwargs):
