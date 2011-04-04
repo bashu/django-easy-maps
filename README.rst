@@ -63,8 +63,9 @@ used. Examples::
    {% easy_map address using 'map.html' %}
    {% easy_map address 200 300 5 using 'map.html' %}
 
-The template will have 'map' (it is the ``easy_maps.models.Address`` instance),
-'width', 'height' and 'zoom' variables. The outer template context is passed
+The template will have 'map' (it is the ``easy_maps.models.Address``
+instance auto-created for passed address on first access), 'width',
+'height' and 'zoom' variables. The outer template context is passed
 to rendered template as well.
 
 The default template can be found here:
@@ -87,6 +88,11 @@ Address model
 * latitude
 * geocode_error - True if geocoder wasn't able to handle the address
 
+Address model should be considered implementation detail. Its purpose is
+to avoid using geocoder for each request, that's a kind of persistent cache.
+It is included in readme because information about available data can
+be useful for custom map templates.
+
 Admin address preview
 =====================
 
@@ -107,6 +113,7 @@ field. It can be used in admin for map previews. Example usage::
 
     admin.site.register(Firm, FirmAdmin)
 
+'address' field should be a CharField or TextField.
 
 Contributing
 ============
