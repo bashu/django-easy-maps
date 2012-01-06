@@ -10,6 +10,9 @@
             style="width: {{ width }}px; height: {{ height }}px;"
          {% endif %}
          class="easy-map-googlemap">
+         <noscript>
+            <img alt="Map of {{ map.address }}" src="http://maps.google.com/maps/api/staticmap?center={{ map.longitude }},{{ latitude }}&zoom={{ zoom }}&markers={{ map.address }}&size={{ width }}x{{ height }}&sensor=false">
+         </noscript>
     </div>
 {% endblock %}
 
