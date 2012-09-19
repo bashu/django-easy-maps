@@ -20,7 +20,7 @@ class Address(models.Model):
             else:
                 g = geocoders.Google(resource='maps')
             address = smart_str(self.address)
-            self.computed_address, (self.latitude, self.longitude,) = g.geocode(address)
+            self.computed_address, (self.latitude, self.longitude,) = g.geocode(address, exactly_one=False)[0]
             self.geocode_error = False
         except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
             self.geocode_error = True
