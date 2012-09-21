@@ -5,3 +5,4 @@ Authors
 * Hidde-Jan Jongsma
 * Daniel Greenfeld (http://pydanny.com/)
 * Erik Simmler
+* Jose Luis Di Biase
