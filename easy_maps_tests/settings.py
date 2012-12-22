@@ -26,5 +26,5 @@ INSTALLED_APPS=(
     'easy_maps',
     'test_app',
 #    'devserver',
-    'south'
+    'south',
 )
