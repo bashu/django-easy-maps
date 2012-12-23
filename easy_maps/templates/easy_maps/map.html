@@ -45,6 +45,12 @@
                 draggable: true,
                 title: "{{ map.address }}"
             });
+            google.maps.event.addListener(marker, 'dragend', function(evt) {
+                var ll = marker.getPosition();
+                // FIXME: fix id names
+                document.getElementById('id_latitude').value = ll.lat();
+                document.getElementById('id_longitude').value = ll.lng();
+            });
             {% endblock %}
         }
 
