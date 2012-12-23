@@ -9,9 +9,7 @@
 {% block html %}
     <!-- HTML map container -->
     <div id="map-canvas-{{ map.pk }}"
-         {% if width and map.latitude and not map.geocode_error %}
-            style="width: {{ width }}px; height: {{ height }}px;"
-         {% endif %}
+         style="width: {{ width }}px; height: {{ height }}px;"
          class="easy-map-googlemap">
          {% block noscript %}
          <noscript>
