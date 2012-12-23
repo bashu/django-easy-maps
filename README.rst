@@ -27,6 +27,12 @@ then create a EASY_MAPS_GOOGLE_KEY in your settings.py file::
 
     EASY_MAPS_GOOGLE_KEY = "your-google-maps-api-key"
 
+If you need a place where center the map when no address is inserted yet add the
+latitudine and longitude to the EASY_MAPS_CENTER variable in your settings.py
+like the following::
+
+    EASY_MAPS_CENTER = (-41.3, 32)
+
 Usage
 =====
 
