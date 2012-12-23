@@ -1,7 +1,7 @@
-from django.conf import settings
 from django.db import models
-from django.utils.encoding import smart_str
-from geopy import geocoders
+
+from .geo import geolocalize
+
 
 class Address(models.Model):
     address = models.CharField(max_length=255, db_index=True)
@@ -14,16 +14,8 @@ class Address(models.Model):
         if not self.address:
             self.geocode_error = True
             return
-        try:
-            if hasattr(settings, "EASY_MAPS_GOOGLE_KEY") and settings.EASY_MAPS_GOOGLE_KEY:
-                g = geocoders.Google(settings.EASY_MAPS_GOOGLE_KEY)
-            else:
-                g = geocoders.Google(resource='maps')
-            address = smart_str(self.address)
-            self.computed_address, (self.latitude, self.longitude,) = g.geocode(address, exactly_one=False)[0]
-            self.geocode_error = False
-        except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
-            self.geocode_error = True
+
+        self.computed_address, self.latitude, self.longitude, self.geocode_error = geolocalize(self.address)
 
     def save(self, *args, **kwargs):
         # fill geocode data if it is unknown
