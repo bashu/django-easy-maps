@@ -44,19 +44,19 @@ class EasyMapNode(template.Node):
 
     def render(self, context):
         try:
-            address = self.address.resolve(context)
+            address = self.address.resolve(context) or ''
             template_name = self.template_name.resolve(context)
 
-            map, _ = Address.objects.get_or_create(address=address or '')
-            if _:
-                map.latitude  = settings.EASY_MAPS_CENTER[0] or -34.397
-                map.longitude = settings.EASY_MAPS_CENTER[1] or 150.644
-                map.save()
+
+            latitude  = settings.EASY_MAPS_CENTER[0] or -34.397
+            longitude = settings.EASY_MAPS_CENTER[1] or 150.644
 
             context.update({
                 'map': map,
                 'width': self.width,
                 'height': self.height,
+                'latitude': latitude,
+                'longitude': longitude,
                 'zoom': self.zoom,
                 'template_name': template_name
             })

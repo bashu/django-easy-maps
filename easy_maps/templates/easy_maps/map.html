@@ -1,5 +1,6 @@
-{% with map.latitude|stringformat:"f" as lat %}
-{% with map.longitude|stringformat:"f" as long %}
+{% load easy_maps_tags %}
+{% with latitude|stringformat:"f" as lat %}
+{% with longitude|stringformat:"f" as long %}
 
 {% block api_js %}
     <!-- Google Maps API javascript -->
@@ -8,12 +9,12 @@
 
 {% block html %}
     <!-- HTML map container -->
-    <div id="map-canvas-{{ map.pk }}"
+    <div id="map-canvas-{{ id }}"
          style="width: {{ width }}px; height: {{ height }}px;"
          class="easy-map-googlemap">
          {% block noscript %}
          <noscript>
-            <img alt="Map of {{ map.address }}" src="https://maps.google.com/maps/api/staticmap?center={{ lat }},{{ long }}&zoom={{ zoom }}&markers={{ lat }},{{ long }}&size={{ width }}x{{ height }}&sensor=false">
+            <img alt="Map of {{ address }}" src="https://maps.google.com/maps/api/staticmap?center={{ lat }},{{ long }}&zoom={{ zoom }}&markers={{ lat }},{{ long }}&size={{ width }}x{{ height }}&sensor=false">
          </noscript>
          {% endblock noscript %}
     </div>
@@ -22,18 +23,18 @@
 {% block map_js %}
     <!-- Map creation script -->
     <script type="text/javascript">
-        function set_form_values_{{ map.pk }}(computed_address, lat, lng, error) {
+
+        function set_form_values_{{ id_safe }}(computed_address, lat, lng, error) {
             // FIXME: ids for inlines?
-            document.getElementById('id_computed_address').value = computed_address;
-            document.getElementById('id_latitude').value         = lat
-            document.getElementById('id_longitude').value        = lng;
-            document.getElementById('id_geocode_error').value    = error;
+            document.getElementById('{{id}}computed_address').value = computed_address;
+            document.getElementById('{{id}}latitude').value         = lat
+            document.getElementById('{{id}}longitude').value        = lng;
+            document.getElementById('{{id}}geocode_error').value    = error;
         }
 
-        function initialize_map_{{ map.pk }}() {
+        function initialize_map_{{ id_safe }}() {
             var latlng = new google.maps.LatLng({{ lat }}, {{ long }});
-            var mapElem = document.getElementById("map-canvas-{{ map.pk }}");
-
+            var mapElem = document.getElementById("map-canvas-{{ id }}");
             {% block map_options_js %}
             var mapOptions = {
                 zoom: {{ zoom }},
@@ -49,29 +50,29 @@
                 position: latlng,
                 map: map,
                 draggable: true,
-                title: "{{ map.address }}"
+                title: "{{ address }}"
             });
 
             // update the coordinate on marker dragging
             google.maps.event.addListener(marker, 'dragend', function(evt) {
                 var ll = marker.getPosition();
                 // FIXME: fix id names
-                document.getElementById('id_latitude').value = ll.lat();
-                document.getElementById('id_longitude').value = ll.lng();
+                document.getElementById('{{id}}latitude').value = ll.lat();
+                document.getElementById('{{id}}longitude').value = ll.lng();
             });
 
             // update the map and fields on click
-            var button = document.getElementById("map-button-{{ map.pk }}");
+            var button = document.getElementById("map-button-{{ id }}");
             button.addEventListener('click', function(evt) {
                 // don't submit
                 evt.preventDefault();
                 // FIXME: this need jQuery
                 django.jQuery.post(
                     '{% url admin:address_json %}', {
-                        'address': document.getElementById('id_address').value
+                        'address': document.getElementById('{{id}}address').value
                     },
                     function(data) {
-                        set_form_values_{{ map.pk }}(
+                        set_form_values_{{ id_safe }}(
                             data["computed_address"],
                             data["latitude"],
                             data["longitude"],
@@ -89,7 +90,7 @@
 
         {% block map_loading_js %}
         // initialize the map after page loading
-        google.maps.event.addDomListener(window, 'load', initialize_map_{{ map.pk }});
+        google.maps.event.addDomListener(window, 'load', initialize_map_{{ id_safe }});
         {% endblock %}
     </script>
 {% endblock %}
