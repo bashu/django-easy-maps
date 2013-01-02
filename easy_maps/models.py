@@ -33,3 +33,8 @@ class Address(models.Model):
 
     def __unicode__(self):
         return self.address
+
+    class Meta:
+        verbose_name = "EasyMaps Address"
+        verbose_name_plural = "Address Geocoding Cache"
+
