@@ -72,7 +72,6 @@ class EasyMapNode(template.Node):
                 'latitude': address[0].latitude,
                 'longitude': address[0].longitude,
                 'zoom': self.zoom,
-                'template_name': template_name
             })
             return render_to_string(template_name, context_instance=context)
         except template.VariableDoesNotExist:
