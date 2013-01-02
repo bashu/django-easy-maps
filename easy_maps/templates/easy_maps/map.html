@@ -2,9 +2,6 @@
 {% with latitude|stringformat:"f" as lat %}
 {% with longitude|stringformat:"f" as long %}
 
-{% block api_js %}
-{% endblock %}
-
 {% block html %}
     <!-- HTML map container -->
     <div id="map-canvas-{{ id }}"
@@ -61,6 +58,7 @@
 
             // update the map and fields on click
             var button = document.getElementById("map-button-{{ id }}");
+            if (button)
             button.addEventListener('click', function(evt) {
                 // don't submit
                 evt.preventDefault();
@@ -82,6 +80,21 @@
                     }
                 );
             });
+
+            {% if markers %}
+                {% for marker in markers %}
+            var marker = easy_maps_add_marker(map, {{marker.json|safe}});
+                {% endfor %}
+
+                {% comment %}use the zoom level passed as argument if there is only one marker{% endcomment %}
+                {% if markers|length > 1 %}
+            // display all the markers 
+            // http://blog.shamess.info/2009/09/29/zoom-to-fit-all-markers-on-google-maps-api-v3/
+            map.fitBounds(g_lat_long_bound);
+                {% else %}
+            easy_maps_add_listener("{{ id }}", marker);
+                {% endif %}
+            {% endif %}
 
             {% endblock %}
         }

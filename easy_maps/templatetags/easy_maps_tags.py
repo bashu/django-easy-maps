@@ -10,7 +10,15 @@ register = template.Library()
 def easy_map(parser, token):
     """
     The syntax:
+
         {% easy_map <address> [<width> <height>] [<zoom>] [using <template_name>] %}
+
+    or
+
+        {% easy_map <addresses> [<width> <height>] [<zoom>] [using <template_name>] %}
+
+    where in the second case you pass a queryset containing the addresses to be
+    visualized.
     """
     width, height, zoom, template_name = None, None, None, None
     params = token.split_contents()
@@ -47,16 +55,22 @@ class EasyMapNode(template.Node):
             address = self.address.resolve(context) or ''
             template_name = self.template_name.resolve(context)
 
+            if isinstance(address, basestring):
+                # if not exists the searched address then created an unsaved instance
+                try:
+                    address = Address.objects.get(address=address)
+                except:
+                    address = Address(address=address)
 
-            latitude  = settings.EASY_MAPS_CENTER[0] or -34.397
-            longitude = settings.EASY_MAPS_CENTER[1] or 150.644
+                address = [address,]
 
             context.update({
-                'map': map,
+                'markers': address,
                 'width': self.width,
                 'height': self.height,
-                'latitude': latitude,
-                'longitude': longitude,
+                # FIXME: if the list is empty?
+                'latitude': address[0].latitude,
+                'longitude': address[0].longitude,
                 'zoom': self.zoom,
                 'template_name': template_name
             })

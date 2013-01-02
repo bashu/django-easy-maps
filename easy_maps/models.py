@@ -31,3 +31,15 @@ class Address(models.Model):
         verbose_name = "EasyMaps Address"
         verbose_name_plural = "Address Geocoding Cache"
 
+    def json(self):
+        """Returns a JSON representation of the address data to be used
+        with the javascript in a template.
+        """
+        import simplejson
+        dic = {
+            'address':          self.address,
+            'computed_address': self.computed_address,
+            'latitude':         self.latitude,
+            'longitude':        self.longitude,
+        }
+        return simplejson.dumps(dic)
