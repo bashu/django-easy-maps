@@ -6,3 +6,4 @@ Authors
 * Daniel Greenfeld (http://pydanny.com/)
 * Erik Simmler
 * Jose Luis Di Biase
+* Gianluca Pacchiella
