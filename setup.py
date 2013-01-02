@@ -7,8 +7,7 @@ setup(
     version = version,
     author = 'Mikhail Korobov',
     author_email = 'kmike84@gmail.com',
-    url = 'http://bitbucket.org/kmike/django-easy-maps/',
-    download_url = 'http://bitbucket.org/kmike/django-easy-maps/get/tip.zip',
+    url = 'https://bitbucket.org/kmike/django-easy-maps/',
 
     description = 'This app makes it easy to display a map for a given address.',
     long_description = open('README.rst').read(),
