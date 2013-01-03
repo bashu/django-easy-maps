@@ -17,7 +17,9 @@ Installation
     pip install django-easy-maps
 
 Then add 'easy_maps' to INSTALLED_APPS and run ``./manage.py syncdb``
-(or ``./manage.py migrate easy_maps`` if South is in use)
+(or ``./manage.py migrate easy_maps`` if South is in use). Since there are
+some media files needed to be used, you have to collect the static files
+distributed with this application (using ``./manage collectstatic``).
 
 Settings
 ========

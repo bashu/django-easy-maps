@@ -2,6 +2,11 @@ from django.forms import TextInput
 from django.template import Template, Context
 
 class AddressWithMapWidget(TextInput):
+    class Media:
+        js = (
+            'https://maps.google.com/maps/api/js?sensor=false',
+            'js/easy_maps.js',
+        )
     def render(self, name, value, attrs=None):
         # retrieve the field's id otherwise it's not possible
         # to use correctly the JS
