@@ -10,15 +10,15 @@ from .geo import geolocalize
 
 import simplejson
 
+class AddressAdminForm(forms.ModelForm):
+    class Meta:
+        widgets = {
+            'address': AddressWithMapWidget({'class': 'vTextField'})
+        }
 
 class AddressAdmin(admin.ModelAdmin):
     search_fields = ['address']
-
-    class form(forms.ModelForm):
-        class Meta:
-            widgets = {
-                'address': AddressWithMapWidget({'class': 'vTextField'})
-            }
+    form = AddressAdminForm
 
     def get_urls(self):
         """Add a view that serves geolocalized data on POST request
@@ -48,12 +48,6 @@ class AddressAdmin(admin.ModelAdmin):
                 'geocode_error':    geocode_error,
             }
         ), content_type='application/json')
-
-class AddressAdminForm(forms.ModelForm):
-    class Meta:
-        widgets = {
-            'address': AddressWithMapWidget({'class': 'vTextField'})
-        }
 
 class AddressInlineAdmin(admin.StackedInline):
     extra = 1
