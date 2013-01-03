@@ -19,6 +19,11 @@ class AddressAdminForm(forms.ModelForm):
 class AddressAdmin(admin.ModelAdmin):
     search_fields = ['address']
     form = AddressAdminForm
+    class Media:
+        js = (
+            'https://maps.google.com/maps/api/js?sensor=false',
+            'js/easy_maps.js',
+        )
 
     def get_urls(self):
         """Add a view that serves geolocalized data on POST request
