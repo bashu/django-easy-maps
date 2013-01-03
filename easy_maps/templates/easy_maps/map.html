@@ -41,20 +41,6 @@
             var map = new google.maps.Map(mapElem, mapOptions);
 
             {% block extra_js %}
-            var marker = new google.maps.Marker({
-                position: latlng,
-                map: map,
-                draggable: true,
-                title: "{{ address }}"
-            });
-
-            // update the coordinate on marker dragging
-            google.maps.event.addListener(marker, 'dragend', function(evt) {
-                var ll = marker.getPosition();
-                // FIXME: fix id names
-                document.getElementById('{{id}}latitude').value = ll.lat();
-                document.getElementById('{{id}}longitude').value = ll.lng();
-            });
 
             // update the map and fields on click
             var button = document.getElementById("map-button-{{ id }}");
