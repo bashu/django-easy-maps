@@ -18,15 +18,6 @@
 {% block map_js %}
     <!-- Map creation script -->
     <script type="text/javascript">
-
-        function set_form_values_{{ id_safe }}(computed_address, lat, lng, error) {
-            // FIXME: ids for inlines?
-            document.getElementById('{{id}}computed_address').value = computed_address;
-            document.getElementById('{{id}}latitude').value         = lat
-            document.getElementById('{{id}}longitude').value        = lng;
-            document.getElementById('{{id}}geocode_error').value    = error;
-        }
-
         function initialize_map_{{ id_safe }}() {
             var latlng = new google.maps.LatLng({{ lat }}, {{ long }});
             var mapElem = document.getElementById("map-canvas-{{ id }}");
@@ -41,32 +32,6 @@
             var map = new google.maps.Map(mapElem, mapOptions);
 
             {% block extra_js %}
-
-            // update the map and fields on click
-            var button = document.getElementById("map-button-{{ id }}");
-            if (button)
-            button.addEventListener('click', function(evt) {
-                // don't submit
-                evt.preventDefault();
-                // FIXME: this need jQuery
-                django.jQuery.post(
-                    '{% url admin:address_json %}', {
-                        'address': document.getElementById('{{id}}address').value
-                    },
-                    function(data) {
-                        set_form_values_{{ id_safe }}(
-                            data["computed_address"],
-                            data["latitude"],
-                            data["longitude"],
-                            data["geocode_error"]
-                        );
-                        var center = new google.maps.LatLng(data["latitude"], data["longitude"]);
-                        marker.setPosition(center);
-                        map.setCenter(center);
-                    }
-                );
-            });
-
             {% if markers %}
                 {% for marker in markers %}
             var marker = easy_maps_add_marker(map, {{marker.json|safe}});
