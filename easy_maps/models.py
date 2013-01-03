@@ -1,13 +1,14 @@
 from django.db import models
 
 from .geo import geolocalize
+from . import settings
 
 
 class Address(models.Model):
     address = models.CharField(max_length=255, db_index=True)
     computed_address = models.CharField(max_length=255, null=True, blank=True)
-    latitude = models.FloatField(null=True, blank=True)
-    longitude = models.FloatField(null=True, blank=True)
+    latitude = models.FloatField(default=settings.EASY_MAPS_CENTER_LAT, null=True, blank=True)
+    longitude = models.FloatField(default=settings.EASY_MAPS_CENTER_LON, null=True, blank=True)
     geocode_error = models.BooleanField(default=False)
 
     def fill_geocode_data(self):
