@@ -17,7 +17,9 @@ Installation
     pip install django-easy-maps
 
 Then add 'easy_maps' to INSTALLED_APPS and run ``./manage.py syncdb``
-(or ``./manage.py migrate easy_maps`` if South is in use)
+(or ``./manage.py migrate easy_maps`` if South is in use). Since there are
+some media files needed to be used, you have to collect the static files
+distributed with this application (using ``./manage collectstatic``).
 
 Settings
 ========
@@ -26,6 +28,13 @@ If working on localhost you can run into Google Maps API lockdown. If this happe
 then create a EASY_MAPS_GOOGLE_KEY in your settings.py file::
 
     EASY_MAPS_GOOGLE_KEY = "your-google-maps-api-key"
+
+If you need a place where center the map when no address is inserted yet add the
+latitudine and longitude to the EASY_MAPS_CENTER_* variables in your settings.py
+like the following::
+
+    EASY_MAPS_CENTER_LAT = -41.3
+    EASY_MAPS_CENTER_LON =  15.2
 
 Usage
 =====

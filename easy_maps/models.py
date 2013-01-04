@@ -1,29 +1,22 @@
-from django.conf import settings
 from django.db import models
-from django.utils.encoding import smart_str
-from geopy import geocoders
+
+from .geo import geolocalize
+from . import settings
+
 
 class Address(models.Model):
     address = models.CharField(max_length=255, db_index=True)
     computed_address = models.CharField(max_length=255, null=True, blank=True)
-    latitude = models.FloatField(null=True, blank=True)
-    longitude = models.FloatField(null=True, blank=True)
+    latitude = models.FloatField(default=settings.EASY_MAPS_CENTER_LAT, null=True, blank=True)
+    longitude = models.FloatField(default=settings.EASY_MAPS_CENTER_LON, null=True, blank=True)
     geocode_error = models.BooleanField(default=False)
 
     def fill_geocode_data(self):
         if not self.address:
             self.geocode_error = True
             return
-        try:
-            if hasattr(settings, "EASY_MAPS_GOOGLE_KEY") and settings.EASY_MAPS_GOOGLE_KEY:
-                g = geocoders.Google(settings.EASY_MAPS_GOOGLE_KEY)
-            else:
-                g = geocoders.Google(resource='maps')
-            address = smart_str(self.address)
-            self.computed_address, (self.latitude, self.longitude,) = g.geocode(address, exactly_one=False)[0]
-            self.geocode_error = False
-        except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
-            self.geocode_error = True
+
+        self.computed_address, self.latitude, self.longitude, self.geocode_error = geolocalize(self.address)
 
     def save(self, *args, **kwargs):
         # fill geocode data if it is unknown
@@ -38,3 +31,15 @@ class Address(models.Model):
         verbose_name = "EasyMaps Address"
         verbose_name_plural = "Address Geocoding Cache"
 
+    def json(self):
+        """Returns a JSON representation of the address data to be used
+        with the javascript in a template.
+        """
+        import simplejson
+        dic = {
+            'address':          self.address,
+            'computed_address': self.computed_address,
+            'latitude':         self.latitude,
+            'longitude':        self.longitude,
+        }
+        return simplejson.dumps(dic)

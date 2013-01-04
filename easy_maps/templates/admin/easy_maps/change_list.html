@@ -1,0 +1,6 @@
+{% extends "admin/change_list.html" %}
+{% load easy_maps_tags %}
+{% block result_list %}
+    {{block.super}}
+    {% easy_map cl.query_set 900 700 %}
+{% endblock %}

@@ -1,14 +1,24 @@
 #coding: utf-8
 from django import template
 from django.template.loader import render_to_string
-from easy_maps.models import Address
+from ..models import Address
+from .. import settings
+
 register = template.Library()
 
 @register.tag
 def easy_map(parser, token):
     """
     The syntax:
+
         {% easy_map <address> [<width> <height>] [<zoom>] [using <template_name>] %}
+
+    or
+
+        {% easy_map <addresses> [<width> <height>] [<zoom>] [using <template_name>] %}
+
+    where in the second case you pass a queryset containing the addresses to be
+    visualized.
     """
     width, height, zoom, template_name = None, None, None, None
     params = token.split_contents()
@@ -42,16 +52,26 @@ class EasyMapNode(template.Node):
 
     def render(self, context):
         try:
-            address = self.address.resolve(context)
+            address = self.address.resolve(context) or ''
             template_name = self.template_name.resolve(context)
 
-            map, _ = Address.objects.get_or_create(address=address or '')
+            if isinstance(address, basestring):
+                # if not exists the searched address then created an unsaved instance
+                try:
+                    address = Address.objects.get(address=address)
+                except:
+                    address = Address(address=address)
+
+                address = [address,]
+
             context.update({
-                'map': map,
+                'markers': address,
                 'width': self.width,
                 'height': self.height,
+                # FIXME: if the list is empty?
+                'latitude': address[0].latitude,
+                'longitude': address[0].longitude,
                 'zoom': self.zoom,
-                'template_name': template_name
             })
             return render_to_string(template_name, context_instance=context)
         except template.VariableDoesNotExist:
