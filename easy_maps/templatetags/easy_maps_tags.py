@@ -2,6 +2,8 @@
 from django import template
 from django.template.loader import render_to_string
 from easy_maps.models import Address
+from django.conf import settings
+
 register = template.Library()
 
 @register.tag
@@ -45,7 +47,12 @@ class EasyMapNode(template.Node):
             address = self.address.resolve(context)
             template_name = self.template_name.resolve(context)
 
-            map, _ = Address.objects.get_or_create(address=address or '')
+            map = None
+            if address == '':
+                map = Address(latitude=settings.EASY_MAPS_CENTER[0], longitude=settings.EASY_MAPS_CENTER[1])
+            else:
+                map, _ = Address.objects.get_or_create(address=address)
+
             context.update({
                 'map': map,
                 'width': self.width,
