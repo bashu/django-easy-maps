@@ -28,3 +28,5 @@ INSTALLED_APPS=(
 #    'devserver',
     'south',
 )
+
+EASY_MAPS_CENTER = (45.0677201, 7.6825531)
