@@ -3,7 +3,7 @@ from django.template import Template, Context
 import mock
 from django.test.utils import override_settings
 
-from .models import Address
+from easy_maps.models import Address
 
 
 class AddressTests(TestCase):
