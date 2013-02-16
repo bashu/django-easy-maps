@@ -10,7 +10,7 @@ setup(
     url = 'https://bitbucket.org/kmike/django-easy-maps/',
 
     description = 'This app makes it easy to display a map for a given address.',
-    long_description = open('README.rst').read(),
+    long_description = open('README.rst').read() + '\n\n' + open('CHANGES.rst').read(),
     license = 'MIT license',
     requires = ['django (>=1.0)', 'geopy'],
 
