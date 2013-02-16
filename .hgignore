@@ -26,5 +26,6 @@ build/
 dist/
 MANIFEST
 
-#my files
+#other files
 db.sqlite
+.tox/*

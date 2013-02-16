@@ -16,6 +16,8 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'templates'),)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, 'static'))
 
+SECRET_KEY = 'khkhgfkuydf-t734-435u3sdfgksadg-fo[7trHGchgsdf'
+
 INSTALLED_APPS=(
     'django.contrib.contenttypes',
     'django.contrib.messages',
