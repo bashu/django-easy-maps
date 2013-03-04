@@ -11,6 +11,9 @@ def easy_map(parser, token):
     """
     The syntax:
         {% easy_map <address> [<width> <height>] [<zoom>] [using <template_name>] %}
+
+    The "address" parameter can be an Address instance or a string describing it.
+    If an address is not found a new entry is created in the database.
     """
     width, height, zoom, template_name = None, None, None, None
     params = token.split_contents()
@@ -47,11 +50,12 @@ class EasyMapNode(template.Node):
             address = self.address.resolve(context)
             template_name = self.template_name.resolve(context)
 
-            map = None
-            if address == '':
-                map = Address(latitude=settings.EASY_MAPS_CENTER[0], longitude=settings.EASY_MAPS_CENTER[1])
-            else:
-                map, _ = Address.objects.get_or_create(address=address)
+            map = address
+            if not isinstance(address, Address):
+                if address == '':
+                    map = Address(latitude=settings.EASY_MAPS_CENTER[0], longitude=settings.EASY_MAPS_CENTER[1])
+                else:
+                    map, _ = Address.objects.get_or_create(address=address)
 
             context.update({
                 'map': map,

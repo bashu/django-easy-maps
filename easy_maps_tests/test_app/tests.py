@@ -64,3 +64,25 @@ class AddressTests(TestCase):
 
         self.assertEqual(n_addresses_after, n_addresses_before + 1)
 
+    @override_settings(EASY_MAPS_CENTER=fake_default_center)
+    def test_use_address_instance(self):
+        """It's possible to pass directly to the easy_map tag an Address instance.
+
+        This test checks also that the database is not hit.
+        """
+        # create a fake address
+        Address.objects.create(address='fake')
+        n_addresses_before = len(Address.objects.all())
+
+        simple_template_string = """{% load easy_maps_tags %}
+        {% easy_map address 500 500 10 %}
+        """
+        address = Address.objects.all()[0]
+        t = Template(simple_template_string)
+        # this assert works only from django1.3
+        self.assertNumQueries(0, lambda: t.render(Context({'address': address,})))
+
+        n_addresses_after = len(Address.objects.all())
+
+        # no Address is created in the process
+        self.assertEqual(n_addresses_after, n_addresses_before)
