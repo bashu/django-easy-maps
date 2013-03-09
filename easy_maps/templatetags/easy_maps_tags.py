@@ -46,24 +46,21 @@ class EasyMapNode(template.Node):
         self.template_name = template.Variable(template_name or '"easy_maps/map.html"')
 
     def render(self, context):
-        try:
-            address = self.address.resolve(context)
-            template_name = self.template_name.resolve(context)
+        address = self.address.resolve(context)
+        template_name = self.template_name.resolve(context)
 
-            map = address
-            if not isinstance(address, Address):
-                if address == '':
-                    map = Address(latitude=settings.EASY_MAPS_CENTER[0], longitude=settings.EASY_MAPS_CENTER[1])
-                else:
-                    map, _ = Address.objects.get_or_create(address=address)
+        map = address
+        if not isinstance(address, Address):
+            if address == '':
+                map = Address(latitude=settings.EASY_MAPS_CENTER[0], longitude=settings.EASY_MAPS_CENTER[1])
+            else:
+                map, _ = Address.objects.get_or_create(address=address)
 
-            context.update({
-                'map': map,
-                'width': self.width,
-                'height': self.height,
-                'zoom': self.zoom,
-                'template_name': template_name
-            })
-            return render_to_string(template_name, context_instance=context)
-        except template.VariableDoesNotExist:
-            return ''
+        context.update({
+            'map': map,
+            'width': self.width,
+            'height': self.height,
+            'zoom': self.zoom,
+            'template_name': template_name
+        })
+        return render_to_string(template_name, context_instance=context)
