@@ -1,3 +1,4 @@
 \.tox
 *\.pyc
 MANIFEST
+/docs/_build
