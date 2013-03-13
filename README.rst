@@ -13,7 +13,7 @@ Installation
 
 ::
 
-    pip install geopy
+    pip install geopy==0.95
     pip install django-easy-maps
 
 Then add 'easy_maps' to INSTALLED_APPS and run ``./manage.py syncdb``
