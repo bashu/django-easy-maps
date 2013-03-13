@@ -16,9 +16,9 @@ class Address(models.Model):
             return
         try:
             if hasattr(settings, "EASY_MAPS_GOOGLE_KEY") and settings.EASY_MAPS_GOOGLE_KEY:
-                g = geocoders.Google(settings.EASY_MAPS_GOOGLE_KEY)
+                g = geocoders.GoogleV3()
             else:
-                g = geocoders.Google(resource='maps')
+                g = geocoders.GoogleV3()
             address = smart_str(self.address)
             self.computed_address, (self.latitude, self.longitude,) = g.geocode(address, exactly_one=False)[0]
             self.geocode_error = False
