@@ -1,6 +1,6 @@
 
-dev (TBA)
----------
+0.8 (2013-03-24)
+----------------
 
 - Testing improvements;
 - EASY_MAPS_CENTER setting for default map coordinates;
@@ -11,7 +11,6 @@ dev (TBA)
 
 Minimum required django version is 1.3 since this release.
 It may work with older versions, but this is untested.
-
 
 0.7.4 (2013-01-03)
 -----------------
