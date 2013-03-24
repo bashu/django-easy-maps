@@ -13,7 +13,7 @@ Minimum required django version is 1.3 since this release.
 It may work with older versions, but this is untested.
 
 0.7.4 (2013-01-03)
------------------
+------------------
 
 - switch to https;
 - make example settings django 1.4 compatible;
