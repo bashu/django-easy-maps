@@ -1,13 +1,20 @@
-from django.test import TestCase
-from django.template import Template, Context
+
 import mock
-from django.test.utils import override_settings
+from django.test import TestCase
+from django import template
+# from django.template import Template, Context
+from django.utils import unittest
+try:
+    from django.test.utils import override_settings
+except ImportError:
+    def override_settings(*args, **kwargs):
+        return unittest.skip("overriding settings is not supported by this django version")
 
 from easy_maps.models import Address
 
-
 class AddressTests(TestCase):
     fake_default_center  = (1, 2)
+
     def test_empty_dont_save_on_db(self):
         """If we pass an empty address we don't save nothing in the database"""
         n_addresses_before = len(Address.objects.all())
@@ -15,9 +22,8 @@ class AddressTests(TestCase):
         simple_template_string = """{% load easy_maps_tags %}
         {% easy_map "" 500 500 10 %}
         """
-        t = Template(simple_template_string)
-        t.render(Context({}))
-
+        t = template.Template(simple_template_string)
+        t.render(template.Context({}))
 
         n_addresses_after = len(Address.objects.all())
 
@@ -30,19 +36,21 @@ class AddressTests(TestCase):
         simple_template_string = """{%% load easy_maps_tags %%}
         {%% easy_map "%s" 500 500 10 %%}
         """ % a
-        self.address = None
+
+        address = [None]  # nonlocal
+
         # below we patch the render_to_string in order to retrieve the map
         # context variable and check its coordinate
         def get_map_context_instance(*args, **kwargs):
-            self.address = (kwargs['context_instance'].dicts[1])['map']
+            address[0] = kwargs['context_instance']['map']
             return ''
 
-        t = Template(simple_template_string)
+        t = template.Template(simple_template_string)
         with mock.patch('easy_maps.templatetags.easy_maps_tags.render_to_string', get_map_context_instance):
-            t.render(Context({}))
+            t.render(template.Context({}))
 
-        self.assertEqual(self.address.latitude, AddressTests.fake_default_center[0])
-        self.assertEqual(self.address.longitude, AddressTests.fake_default_center[1])
+        self.assertEqual(address[0].latitude, AddressTests.fake_default_center[0])
+        self.assertEqual(address[0].longitude, AddressTests.fake_default_center[1])
 
     @override_settings(EASY_MAPS_CENTER=fake_default_center)
     def test_normal_address(self):
@@ -53,8 +61,8 @@ class AddressTests(TestCase):
         simple_template_string = """{%% load easy_maps_tags %%}
         {%% easy_map "%s" 500 500 10 %%}
         """ % a
-        t = Template(simple_template_string)
-        t.render(Context({}))
+        t = template.Template(simple_template_string)
+        t.render(template.Context({}))
 
         address = Address.objects.get(address=a)
         self.assertNotEqual(address.latitude, AddressTests.fake_default_center[0])
@@ -78,9 +86,10 @@ class AddressTests(TestCase):
         {% easy_map address 500 500 10 %}
         """
         address = Address.objects.all()[0]
-        t = Template(simple_template_string)
+        t = template.Template(simple_template_string)
         # this assert works only from django1.3
-        self.assertNumQueries(0, lambda: t.render(Context({'address': address,})))
+        ctx = template.Context({'address': address,})
+        self.assertNumQueries(0, lambda: t.render(ctx))
 
         n_addresses_after = len(Address.objects.all())
 
