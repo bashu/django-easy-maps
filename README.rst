@@ -28,11 +28,6 @@ settings.py like the following::
 
     EASY_MAPS_CENTER = (-41.3, 32)
 
-Sometimes you can run into Google Maps API lockdown. If this happens
-then create a EASY_MAPS_GOOGLE_KEY in your settings.py file::
-
-    EASY_MAPS_GOOGLE_KEY = "your-google-maps-api-key"
-
 Usage
 =====
 

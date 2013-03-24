@@ -7,7 +7,9 @@
 - allow to pass an Address instance as argument of easy_map tag;
 - better error handling;
 - switch to GoogleV3 geocoder;
-- customization hook: it is now possible to use a custom geocoding method.
+- customization hook: it is now possible to use a custom geocoding method;
+- EASY_MAPS_GOOGLE_KEY now does nothing (it is not a meaningful option
+  for V3 Geocoding API).
 
 Minimum required django version is 1.3 since this release.
 It may work with older versions, but this is untested.
