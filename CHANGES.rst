@@ -2,8 +2,16 @@
 dev (TBA)
 ---------
 
-- testing improvements;
-- EASY_MAPS_CENTER setting for default map coordinates.
+- Testing improvements;
+- EASY_MAPS_CENTER setting for default map coordinates;
+- allow to pass an Address instance as argument of easy_map tag;
+- better error handling;
+- switch to GoogleV3 geocoder;
+- customization hook: it is now possible to use a custom geocoding method.
+
+Minimum required django version is 1.3 since this release.
+It may work with older versions, but this is untested.
+
 
 0.7.4 (2013-01-03)
 -----------------
