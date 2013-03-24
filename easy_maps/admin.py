@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django import forms
 
-from .models import Address
 from .widgets import AddressWithMapWidget
 
 class AddressAdmin(admin.ModelAdmin):
