@@ -1,7 +1,13 @@
+from __future__ import absolute_import
+import logging
+
 from django.conf import settings
 from django.db import models
-from django.utils.encoding import smart_str
-from geopy import geocoders
+
+from . import geocode
+
+logger = logging.getLogger(__name__)
+
 
 class Address(models.Model):
     address = models.CharField(max_length=255, db_index=True)
@@ -15,15 +21,17 @@ class Address(models.Model):
             self.geocode_error = True
             return
         try:
-            if hasattr(settings, "EASY_MAPS_GOOGLE_KEY") and settings.EASY_MAPS_GOOGLE_KEY:
-                g = geocoders.Google(settings.EASY_MAPS_GOOGLE_KEY)
-            else:
-                g = geocoders.Google(resource='maps')
-            address = smart_str(self.address)
-            self.computed_address, (self.latitude, self.longitude,) = g.geocode(address, exactly_one=False)[0]
+            do_geocode = getattr(settings, "EASY_MAPS_GEOCODE", geocode.google_v3)
+            self.computed_address, (self.latitude, self.longitude,) = do_geocode(self.address)
             self.geocode_error = False
-        except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
+        except geocode.Error as e:
+            try:
+                logger.error(e)
+            except Exception:
+                logger.error("Geocoding error for address %s", self.address)
+
             self.geocode_error = True
+            # TODO: store the exception
 
     def save(self, *args, **kwargs):
         # fill geocode data if it is unknown

@@ -37,6 +37,7 @@ def easy_map(parser, token):
                    '{% easy_map <address> <width> <height> [zoom] [using <template_name>] %}')
     return EasyMapNode(address, width, height, zoom, template_name)
 
+
 class EasyMapNode(template.Node):
     def __init__(self, address, width, height, zoom, template_name):
         self.address = template.Variable(address)
@@ -45,20 +46,27 @@ class EasyMapNode(template.Node):
         self.zoom = zoom or 16
         self.template_name = template.Variable(template_name or '"easy_maps/map.html"')
 
+    def get_map(self, address):
+        if isinstance(address, Address):
+            return address
+
+        if address == '':
+            map_ = Address(latitude=settings.EASY_MAPS_CENTER[0],
+                           longitude=settings.EASY_MAPS_CENTER[1])
+        else:
+            map_, _ = Address.objects.get_or_create(address=address)
+
+        return map_
+
+
     def render(self, context):
         try:
             address = self.address.resolve(context)
             template_name = self.template_name.resolve(context)
-
-            map = address
-            if not isinstance(address, Address):
-                if address == '':
-                    map = Address(latitude=settings.EASY_MAPS_CENTER[0], longitude=settings.EASY_MAPS_CENTER[1])
-                else:
-                    map, _ = Address.objects.get_or_create(address=address)
+            map_ = self.get_map(address)
 
             context.update({
-                'map': map,
+                'map': map_,
                 'width': self.width,
                 'height': self.height,
                 'zoom': self.zoom,

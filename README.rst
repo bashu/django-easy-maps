@@ -13,7 +13,7 @@ Installation
 
 ::
 
-    pip install geopy
+    pip install 'geopy >= 0.95'
     pip install django-easy-maps
 
 Then add 'easy_maps' to INSTALLED_APPS and run ``./manage.py syncdb``
@@ -22,16 +22,16 @@ Then add 'easy_maps' to INSTALLED_APPS and run ``./manage.py syncdb``
 Settings
 ========
 
-If working on localhost you can run into Google Maps API lockdown. If this happens
+If you need a place where center the map when no address is inserted yet add
+the latitude and longitude to the EASY_MAPS_CENTER variable in your
+settings.py like the following::
+
+    EASY_MAPS_CENTER = (-41.3, 32)
+
+Sometimes you can run into Google Maps API lockdown. If this happens
 then create a EASY_MAPS_GOOGLE_KEY in your settings.py file::
 
     EASY_MAPS_GOOGLE_KEY = "your-google-maps-api-key"
-
-If you need a place where center the map when no address is inserted yet add the
-latitudine and longitude to the EASY_MAPS_CENTER variable in your settings.py
-like the following::
-
-    EASY_MAPS_CENTER = (-41.3, 32)
 
 Usage
 =====
@@ -82,6 +82,30 @@ default template.
 
 Please refer to http://code.google.com/apis/maps/documentation/javascript/ for
 detailed Google Maps JavaScript API help.
+
+Customizing geocoder
+--------------------
+
+To use a custom geocoder set EASY_MAPS_GEOCODE option::
+
+    # settings.py
+
+    from django_easy_maps import geocode
+
+    def my_geocode(address):
+        """
+        Given an address (an unicode string), return
+        ``(computed_address, (latitude, longitude))`` tuple.
+        """
+        try:
+            # ...
+            return computed_address, (latitude, longitude)
+        except (...) as e:
+            raise geocode.Error(e)
+
+    EASY_MAPS_GEOCODE = my_geocode
+
+
 
 Address model
 =============
