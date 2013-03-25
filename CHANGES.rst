@@ -1,4 +1,9 @@
 
+0.8.1 (2013-03-25)
+------------------
+
+- Fix regressions in geocoding errors handling introduced in 0.8.
+
 0.8 (2013-03-24)
 ----------------
 
