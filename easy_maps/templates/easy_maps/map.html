@@ -9,13 +9,16 @@
 {% block html %}
     <!-- HTML map container -->
     <div id="map-canvas-{{ map.pk }}"
-         style="width: {{ width }}px; height: {{ height }}px;"
-         class="easy-map-googlemap">
-         {% block noscript %}
-         <noscript>
-            <img alt="Map of {{ map.address }}" src="https://maps.google.com/maps/api/staticmap?center={{ lat }},{{ long }}&zoom={{ zoom }}&markers={{ lat }},{{ long }}&size={{ width }}x{{ height }}&sensor=false">
-         </noscript>
-         {% endblock noscript %}
+        {% if width and map.latitude and not map.geocode_error %}
+        style="width: {{ width }}px; height: {{ height }}px;"
+        {% endif %}
+        class="easy-map-googlemap">
+        {% block noscript %}
+        <noscript>
+        <img alt="Map of {{ map.address }}" src="https://maps.google.com/maps/api/staticmap?center={{ lat }},{{ long }}&zoom={{ zoom }}&markers={{ lat }},{{ long }}&size={{ width }}x{{ height }}&sensor=false">
+        </noscript>
+        {% endblock noscript %}
+        {% if map.geocode_error %}<!-- geocoding error -->{% endif %}
     </div>
 {% endblock %}
 
