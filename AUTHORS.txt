@@ -7,3 +7,4 @@ Authors
 * Erik Simmler
 * Jose Luis Di Biase
 * Gianluca Pacchiella
+* Iván Raskovsky
