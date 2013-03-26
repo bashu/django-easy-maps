@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class Address(models.Model):
-    address = models.CharField(max_length=255, db_index=True)
+    address = models.CharField(max_length=255, unique=True)
     computed_address = models.CharField(max_length=255, null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
