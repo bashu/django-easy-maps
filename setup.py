@@ -15,7 +15,7 @@ setup(
     requires = ['django (>=1.3)', 'geopy (>= 0.95)'],
 
     packages=['easy_maps', 'easy_maps.templatetags', 'easy_maps.migrations'],
-    package_data={'easy_maps': ['templates/easy_maps/*']},
+    package_data={'easy_maps': ['templates/easy_maps/*', 'locale/*/LC_MESSAGES/*']},
 
     classifiers=[
         'Development Status :: 4 - Beta',
