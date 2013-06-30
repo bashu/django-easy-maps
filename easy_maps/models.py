@@ -3,6 +3,7 @@ import logging
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from . import geocode
 
@@ -10,11 +11,11 @@ logger = logging.getLogger(__name__)
 
 
 class Address(models.Model):
-    address = models.CharField(max_length=255, unique=True)
-    computed_address = models.CharField(max_length=255, null=True, blank=True)
-    latitude = models.FloatField(null=True, blank=True)
-    longitude = models.FloatField(null=True, blank=True)
-    geocode_error = models.BooleanField(default=False)
+    address = models.CharField(_('Address'), max_length=255, unique=True)
+    computed_address = models.CharField(_('Computed address'), max_length=255, null=True, blank=True)
+    latitude = models.FloatField(_('Latitude'), null=True, blank=True)
+    longitude = models.FloatField(_('Longitude'), null=True, blank=True)
+    geocode_error = models.BooleanField(_('Geocode error'), default=False)
 
     def fill_geocode_data(self):
         if not self.address:
@@ -43,6 +44,6 @@ class Address(models.Model):
         return self.address
 
     class Meta:
-        verbose_name = "EasyMaps Address"
-        verbose_name_plural = "Address Geocoding Cache"
+        verbose_name = _("EasyMaps Address")
+        verbose_name_plural = _("Address Geocoding Cache")
 

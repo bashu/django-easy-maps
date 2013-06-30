@@ -1,0 +1,47 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Sebastian Rahlf <basti@redtoad.de>, 2013.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-06-30 20:59+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Sebastian Rahlf <basti@redtoad.de>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: models.py:14
+msgid "Address"
+msgstr "Adresse"
+
+#: models.py:15
+msgid "Computed address"
+msgstr "Berechnete Adresse"
+
+#: models.py:16
+msgid "Latitude"
+msgstr "Breitengrad"
+
+#: models.py:17
+msgid "Longitude"
+msgstr "Längengrad"
+
+#: models.py:18
+msgid "Geocode error"
+msgstr "Geocode-Fehler"
+
+#: models.py:47
+msgid "EasyMaps Address"
+msgstr "EasyMaps-Adresse"
+
+#: models.py:48
+msgid "Address Geocoding Cache"
+msgstr "EasyMaps-Adressen"
