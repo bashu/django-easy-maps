@@ -8,8 +8,14 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+
         # Removing index on 'Address', fields ['address']
-        db.delete_index('easy_maps_address', ['address'])
+        if db.backend_name != 'sqlite3':
+            # South forgets indexes when altering tables in sqlite,
+            # see http://south.aeracode.org/ticket/757 .
+            # This means delete_index will raise an exception with sqlite
+            # because the index is 'forgotten' in previous migrations.
+            db.delete_index('easy_maps_address', ['address'])
 
         # Adding unique constraint on 'Address', fields ['address']
         db.create_unique('easy_maps_address', ['address'])
