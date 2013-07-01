@@ -1,3 +1,14 @@
+0.8.2 (2013-07-02)
+------------------
+
+- Unique constraint is added to Address.address field (to prevent
+  MultipleObjectsReturned exceptions).
+
+  In order to upgrade, run
+
+      python manage.py migrate easy_maps
+
+- German translation is added.
 
 0.8.1 (2013-03-25)
 ------------------

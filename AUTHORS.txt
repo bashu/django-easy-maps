@@ -8,3 +8,4 @@ Authors
 * Jose Luis Di Biase
 * Gianluca Pacchiella
 * Iván Raskovsky
+* Sebastian Rahlf
