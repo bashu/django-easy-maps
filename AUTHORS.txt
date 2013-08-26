@@ -9,3 +9,4 @@ Authors
 * Gianluca Pacchiella
 * Iván Raskovsky
 * Sebastian Rahlf
+* Konstantin Gantsov
