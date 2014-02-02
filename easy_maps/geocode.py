@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 from django.utils.encoding import smart_str
 from geopy import geocoders
-from geopy.geocoders.base import GeocoderServiceError
+from geopy.exc import GeocoderServiceError
 
 class Error(Exception):
     pass
