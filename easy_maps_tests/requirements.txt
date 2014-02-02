@@ -1,0 +1,4 @@
+Django
+South
+geopy
+mock
