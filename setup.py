@@ -12,7 +12,7 @@ setup(
     description = 'This app makes it easy to display a map for a given address.',
     long_description = open('README.rst').read() + '\n\n' + open('CHANGES.rst').read(),
     license = 'MIT license',
-    requires = ['django (>=1.3)', 'geopy (>= 0.95)'],
+    requires = ['django (>=1.3)', 'geopy (>= 0.96)'],
 
     packages=['easy_maps', 'easy_maps.templatetags', 'easy_maps.migrations'],
     package_data={'easy_maps': ['templates/easy_maps/*', 'locale/*/LC_MESSAGES/*']},
