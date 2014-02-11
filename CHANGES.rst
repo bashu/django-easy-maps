@@ -1,3 +1,13 @@
+
+0.9 (2014-02-11)
+----------------
+
+- Backwards incompatible: added support for geopy >= 0.96,
+  dropped support for geopy < 0.96.
+- Added support for django 1.6, dropped support for django 1.3. It may
+  still work with django 1.3, but this is no longer tested.
+- Experimental Python 3.3 support (no code changes - app seems to work as-is).
+
 0.8.4 (2013-08-27)
 ------------------
 

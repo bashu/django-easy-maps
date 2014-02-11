@@ -10,3 +10,4 @@ Authors
 * Iván Raskovsky
 * Sebastian Rahlf
 * Konstantin Gantsov
+* Will Emmerson
