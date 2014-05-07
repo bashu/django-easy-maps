@@ -1,10 +1,11 @@
-#coding: utf-8
+# coding: utf-8
 from django import template
 from django.template.loader import render_to_string
 from easy_maps.models import Address
 from django.conf import settings
 
 register = template.Library()
+
 
 @register.tag
 def easy_map(parser, token):
@@ -34,11 +35,12 @@ def easy_map(parser, token):
         width, height, zoom = params[2], params[3], params[4]
     elif len(params) == 3 or len(params) > 5:
         raise template.TemplateSyntaxError('easy_map tag has the following syntax: '
-                   '{% easy_map <address> <width> <height> [zoom] [using <template_name>] %}')
+                                           '{% easy_map <address> <width> <height> [zoom] [using <template_name>] %}')
     return EasyMapNode(address, width, height, zoom, template_name)
 
 
 class EasyMapNode(template.Node):
+
     def __init__(self, address, width, height, zoom, template_name):
         self.address = template.Variable(address)
         self.width = width or ''
@@ -57,7 +59,6 @@ class EasyMapNode(template.Node):
             map_, _ = Address.objects.get_or_create(address=address)
 
         return map_
-
 
     def render(self, context):
         try:
