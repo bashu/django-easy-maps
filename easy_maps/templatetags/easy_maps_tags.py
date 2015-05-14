@@ -41,8 +41,8 @@ def easy_map(parser, token):
 class EasyMapNode(template.Node):
     def __init__(self, address, width, height, zoom, template_name):
         self.address = template.Variable(address)
-        self.width = width or ''
-        self.height = height or ''
+        self.width = template.Variable(width) or ''
+        self.height = template.Variable(height) or ''
         self.zoom = zoom or 16
         self.template_name = template.Variable(template_name or '"easy_maps/map.html"')
 
