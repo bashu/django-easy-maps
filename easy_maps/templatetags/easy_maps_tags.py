@@ -43,7 +43,7 @@ class EasyMapNode(template.Node):
         self.address = template.Variable(address)
         self.width = template.Variable(width)
         self.height = template.Variable(height)
-        self.zoom = zoom or 16
+        self.zoom = template.Variable(zoom)
         self.template_name = template.Variable(template_name or '"easy_maps/map.html"')
 
     def get_map(self, address):
@@ -68,7 +68,11 @@ class EasyMapNode(template.Node):
             height = self.height.resolve(context)
         except:
             height = ''
-            
+        try:
+            zoom = self.zoom.resolve(context)
+        except:
+            zoom = 16
+
         try:
             address = self.address.resolve(context)
             template_name = self.template_name.resolve(context)
@@ -78,7 +82,7 @@ class EasyMapNode(template.Node):
                 'map': map_,
                 'width': width,
                 'height': height,
-                'zoom': self.zoom,
+                'zoom': zoom,
                 'template_name': template_name
             })
             return render_to_string(template_name, context_instance=context)
