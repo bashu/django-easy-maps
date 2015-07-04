@@ -1,6 +1,6 @@
-include *.txt
-include *.rst
-
+include AUTHORS
+include CHANGES
+include LICENSE
+include README.rst
 recursive-include easy_maps *.html
-recursive-include easy_maps_tests *.html *.py
 recursive-include easy_maps/locale *
