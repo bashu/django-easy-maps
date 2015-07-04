@@ -29,10 +29,17 @@ You'll need to add ``easy_maps`` to ``INSTALLED_APPS`` in your project's ``setti
 
 .. code-block:: python
 
+    import django
+    
     INSTALLED_APPS = (
         ...
         'easy_maps',
     )
+
+    if django.VERSION < (1, 7):
+        INSTALLED_APPS += (
+            'south',
+        )
 
 Then run ``./manage.py syncdb`` to create the required database tables
 
