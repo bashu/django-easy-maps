@@ -1,0 +1,5 @@
+django
+django-appconf
+south
+geopy
+mock
