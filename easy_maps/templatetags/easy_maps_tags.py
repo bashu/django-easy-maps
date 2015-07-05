@@ -1,8 +1,10 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
+
 from django import template
 from django.template.loader import render_to_string
-from easy_maps.models import Address
-from django.conf import settings
+
+from ..conf import settings
+from ..models import Address
 
 register = template.Library()
 
