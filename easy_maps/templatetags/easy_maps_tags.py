@@ -33,7 +33,7 @@ class EasyMapTag(InclusionTag):
         IntegerArgument('height', required=False, default=None),
         IntegerArgument('zoom', required=False, default=16),
         'using',
-        Argument('template_name', resolve=False, default=None, required=False),
+        Argument('template_name', default=None, required=False),
     )
 
     def render_tag(self, context, **kwargs):
