@@ -1,4 +1,10 @@
 
+0.9.1 (2015-07-02)
+------------------
+
+- Resolve the 500 error when google send a no results info
+- Resolving width / height and other variables in template
+
 0.9 (2014-02-11)
 ----------------
 
