@@ -45,6 +45,7 @@ class Address(models.Model):
     latitude = models.FloatField(_('latitude'), null=True, blank=True)
     longitude = models.FloatField(_('longitude'), null=True, blank=True)
 
+    # TODO: replace this crap with something better
     geocode_error = models.BooleanField(_('geocode error'), default=False)
 
     objects = AddressManager()
@@ -56,32 +57,12 @@ class Address(models.Model):
     def __unicode__(self):
         return self.address
 
-    # def fetch_geocode_data(self):
-    #     if not self.address:
-    #         # self.geocode_error = True
-    #         return False
-
-    #     func = getattr(settings, 'EASY_MAPS_GEOCODE', None)
-    #     if func is not None:
-    #         if not isinstance(func, collections.Callable):
-    #             func = importpath(func)
-
-    #     try:
-    #         self.computed_address, (self.latitude, self.longitude,) = func(self.address)
-    #         # self.geocode_error = False
-    #     except geocode.Error as e:
-    #         try:
-    #             logger.error(e)
-    #         except Exception:
-    #             logger.error("Geocoding error for address %s", self.address)
-
-    #         # self.geocode_error = True
-    #         # TODO: store the exception
-
     def save(self, *args, **kwargs):
         if (self.longitude is None) or (self.latitude is None):
             loc = self.__class__.objects.for_address(self.address)
             if loc is not None:
                 self.computed_address, (self.latitude, self.longitude,) = loc
+            else:  # TODO: replace this crap with something better
+                self.computed_address = None
         super(Address, self).save(*args, **kwargs)
 
