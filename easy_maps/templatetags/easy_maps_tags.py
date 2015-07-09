@@ -1,93 +1,64 @@
 # -*- coding: utf-8 -*-
 
 from django import template
-from django.template.loader import render_to_string
+
+from classytags.core import Options
+from classytags.helpers import InclusionTag
+from classytags.arguments import Argument, IntegerArgument
 
 from ..conf import settings
 from ..models import Address
 
 register = template.Library()
 
+CENTER = settings.EASY_MAPS_CENTER
 
-@register.tag
-def easy_map(parser, token):
+
+class EasyMapTag(InclusionTag):
     """
     The syntax:
-        {% easy_map <address> [<width> <height>] [<zoom>] [using <template_name>] %}
 
-    The "address" parameter can be an Address instance or a string describing it.
-    If an address is not found a new entry is created in the database.
+    {% easy_map <address> [<width> <height>] [<zoom>] [using <template_name>] %}
+
+    The "address" parameter can be an ``easy_maps.Address`` instance or a string
+    describing it.  If an address is not found a new entry is created
+    in the database.
+
     """
-    width, height, zoom, template_name = None, None, None, None
-    params = token.split_contents()
+    name = 'easy_map'
+    template = 'easy_maps/map.html'
+    options = Options(
+        Argument('address', resolve=True, required=True),
+        IntegerArgument('width', required=False, default=None),
+        IntegerArgument('height', required=False, default=None),
+        IntegerArgument('zoom', required=False, default=16),
+        'using',
+        Argument('template_name', resolve=False, default=None, required=False),
+    )
 
-    # pop the template name
-    if params[-2] == 'using':
-        template_name = params[-1]
-        params = params[:-2]
+    def render_tag(self, context, **kwargs):
+        params = dict((k,v) for k,v in kwargs.iteritems() if v is not None)
+        if len(params.keys()) == 3 or len(params.keys()) > 5:
+            raise template.TemplateSyntaxError("easy_map tag has the following syntax: "
+                "{% easy_map <address> [<width> <height>] [zoom] [using <template_name>] %}")
+        return super(EasyMapTag, self).render_tag(context, **kwargs)
+    
+    def get_template(self, context, **kwargs):
+        return kwargs.get('template_name', None) or self.template
 
-    if len(params) < 2:
-        raise template.TemplateSyntaxError('easy_map tag requires address argument')
-
-    address = params[1]
-
-    if len(params) == 4:
-        width, height = params[2], params[3]
-    elif len(params) == 5:
-        width, height, zoom = params[2], params[3], params[4]
-    elif len(params) == 3 or len(params) > 5:
-        raise template.TemplateSyntaxError('easy_map tag has the following syntax: '
-                                           '{% easy_map <address> <width> <height> [zoom] [using <template_name>] %}')
-    return EasyMapNode(address, width, height, zoom, template_name)
-
-
-class EasyMapNode(template.Node):
-
-    def __init__(self, address, width, height, zoom, template_name):
-        self.address = template.Variable(address)
-        self.width = template.Variable(width)
-        self.height = template.Variable(height)
-        self.zoom = template.Variable(zoom)
-        self.template_name = template.Variable(template_name or '"easy_maps/map.html"')
-
-    def get_map(self, address):
+    def parse_address(self, address=None):
         if isinstance(address, Address):
             return address
 
         if not address:
-            map_ = Address(latitude=settings.EASY_MAPS_CENTER[0],
-                           longitude=settings.EASY_MAPS_CENTER[1])
+            return Address(latitude=CENTER[0], longitude=CENTER[1])
         else:
-            map_, _ = Address.objects.get_or_create(address=address)
+            return Address.objects.get_or_create(address=address)[0]
 
-        return map_
+        raise NotImplementedError
+                                               
+    def get_context(self, context, **kwargs):
+        kwargs.update({'map': self.parse_address(kwargs.pop('address'))})
+        return kwargs
 
-    def render(self, context):
-        try:
-            width = self.width.resolve(context)
-        except:
-            width = ''
-        try:
-            height = self.height.resolve(context)
-        except:
-            height = ''
-        try:
-            zoom = self.zoom.resolve(context)
-        except:
-            zoom = 16
-
-        try:
-            address = self.address.resolve(context)
-            template_name = self.template_name.resolve(context)
-            map_ = self.get_map(address)
-
-            context.update({
-                'map': map_,
-                'width': width,
-                'height': height,
-                'zoom': zoom,
-                'template_name': template_name
-            })
-            return render_to_string(template_name, context_instance=context)
-        except template.VariableDoesNotExist:
-            return ''
+register.tag(EasyMapTag)
