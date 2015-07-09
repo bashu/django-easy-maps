@@ -1,49 +1,68 @@
-from __future__ import absolute_import
-import logging
+# -*- coding: utf-8 -*-
 
-from django.conf import settings
+import logging
+import collections
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from . import geocode
+from .conf import settings
+from .utils import importpath
 
 logger = logging.getLogger(__name__)
 
 
-class Address(models.Model):
-    address = models.CharField(_('Address'), max_length=255, unique=True)
-    computed_address = models.CharField(_('Computed address'), max_length=255, null=True, blank=True)
-    latitude = models.FloatField(_('Latitude'), null=True, blank=True)
-    longitude = models.FloatField(_('Longitude'), null=True, blank=True)
-    geocode_error = models.BooleanField(_('Geocode error'), default=False)
+class AddressManager(models.Manager):
 
-    def fill_geocode_data(self):
-        if not self.address:
-            self.geocode_error = True
-            return
+    def for_address(self, address):
+        if not address:
+            return None
+
+        func = getattr(settings, 'EASY_MAPS_GEOCODE', None)
+        if func is not None:
+            if not isinstance(func, collections.Callable):
+                func = importpath(func)
+
         try:
-            do_geocode = getattr(settings, "EASY_MAPS_GEOCODE", geocode.google_v3)
-            self.computed_address, (self.latitude, self.longitude,) = do_geocode(self.address)
-            self.geocode_error = False
+            return func(address)
         except geocode.Error as e:
             try:
                 logger.error(e)
             except Exception:
-                logger.error("Geocoding error for address %s", self.address)
+                logger.error("Geocoding error for address '%s'", address)
 
-            self.geocode_error = True
-            # TODO: store the exception
+        return None
 
-    def save(self, *args, **kwargs):
-        # fill geocode data if it is unknown
-        if (self.longitude is None) or (self.latitude is None):
-            self.fill_geocode_data()
-        super(Address, self).save(*args, **kwargs)
+    
+class Address(models.Model):
+
+    address = models.CharField(_('address'), max_length=255, unique=True)
+
+    # for internal use...
+    
+    computed_address = models.CharField(_('computed address'), max_length=255, null=True, blank=True)
+    latitude = models.FloatField(_('latitude'), null=True, blank=True)
+    longitude = models.FloatField(_('longitude'), null=True, blank=True)
+
+    # TODO: replace this crap with something better
+    geocode_error = models.BooleanField(_('geocode error'), default=False)
+
+    objects = AddressManager()
+    
+    class Meta:
+        verbose_name = _("EasyMaps Address")
+        verbose_name_plural = _("Address Geocoding Cache")
 
     def __unicode__(self):
         return self.address
 
-    class Meta:
-        verbose_name = _("EasyMaps Address")
-        verbose_name_plural = _("Address Geocoding Cache")
+    def save(self, *args, **kwargs):
+        if (self.longitude is None) or (self.latitude is None):
+            loc = self.__class__.objects.for_address(self.address)
+            if loc is not None:
+                self.computed_address, (self.latitude, self.longitude,) = loc
+            else:  # TODO: replace this crap with something better
+                self.computed_address = None
+        super(Address, self).save(*args, **kwargs)
 

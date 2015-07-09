@@ -1,4 +1,3 @@
-================
 django-easy-maps
 ================
 
@@ -6,36 +5,86 @@ This app makes it easy to display a map for given address in django templates.
 No API keys, manual geocoding, html/js copy-pasting or django model
 changes is needed.
 
-The license is MIT.
+Authored by `Mikhail Korobov <http://kmike.ru/>`_, and some great
+`contributors <https://github.com/kmike/django-easy-maps/contributors>`_.
 
+.. image:: https://img.shields.io/pypi/v/django-easy-maps.svg
+    :target: https://pypi.python.org/pypi/django-easy-maps/
+
+.. image:: https://img.shields.io/pypi/dm/django-easy-maps.svg
+    :target: https://pypi.python.org/pypi/django-easy-maps/
+
+.. image:: https://img.shields.io/github/license/kmike/django-easy-maps.svg
+    :target: https://pypi.python.org/pypi/django-easy-maps/
+
+.. image:: https://img.shields.io/travis/kmike/django-easy-maps.svg
+    :target: https://travis-ci.org/kmike/django-easy-maps/
+             
 Installation
-============
+------------
 
-::
+Either clone this repository into your project, or install with ``pip install django-easy-maps``
 
-    pip install 'geopy >= 0.96'
-    pip install django-easy-maps
+You'll need to add ``easy_maps`` to ``INSTALLED_APPS`` in your project's ``settings.py`` file:
 
-Then add 'easy_maps' to INSTALLED_APPS and run ``./manage.py syncdb``
-(or ``./manage.py migrate easy_maps`` if South is in use)
+.. code-block:: python
 
-Settings
-========
+    import django
+    
+    INSTALLED_APPS = (
+        ...
+        'easy_maps',
+    )
 
-If you need a place where center the map when no address is inserted yet add
-the latitude and longitude to the EASY_MAPS_CENTER variable in your
-settings.py like the following::
+    if django.VERSION < (1, 7):
+        INSTALLED_APPS += (
+            'south',
+        )
+
+Then run ``./manage.py syncdb`` to create the required database tables
+
+Configuration (optional)
+------------------------
+
+If you need a place where center the map when no address is inserted
+yet add the latitude and longitude to the ``EASY_MAPS_CENTER`` variable in
+your ``settings.py`` like the following:
+
+.. code-block:: python
 
     EASY_MAPS_CENTER = (-41.3, 32)
 
-Usage
-=====
+To use a custom geocoder set ``EASY_MAPS_GEOCODE`` option:
 
-This app provides an ``easy_map`` template tag::
+.. code-block:: python
+
+    # Default: 'easy_maps.geocode.google_v3'
+    EASY_MAPS_GEOCODE = 'example.custom_geocode'
+
+Please see ``example`` application. This application is used to
+manually test the functionalities of this package. This also serves as
+a good example.
+
+You need Django 1.4 or above to run that. It might run on older versions but that is not tested.
+
+Usage
+-----
+
+First of all, load the ``easy_map_tags`` in every template where you want to use it:
+
+.. code-block:: html+django
+
+    {% load easy_maps_tags %}
+
+Use:
+
+.. code-block:: html+django
 
     {% easy_map <address> [<width> <height>] [<zoom>] [using <template_name>] %}
 
-Examples::
+For example:
+
+.. code-block:: html+django
 
     {% load easy_maps_tags %}
 
@@ -47,7 +96,9 @@ Examples::
 
 The coordinates for map will be obtained using google geocoder on first
 access. Then they'll be cached in DB. Django's template caching can be used
-later in order to prevent DB access on each map render::
+later in order to prevent DB access on each map render:
+
+.. code-block:: html+django
 
     {% load easy_maps_tags cache %}
 
@@ -55,22 +106,21 @@ later in order to prevent DB access on each map render::
         {% easy_map firm.address 300 400 %}
     {% endcache %}
 
-Customization
-=============
+Templates
+---------
 
 If the default map template is not sufficient then custom map template can be
-used. Examples::
+used. For example:
 
-   {% easy_map address using 'map.html' %}
-   {% easy_map address 200 300 5 using 'map.html' %}
+.. code-block:: html+django
 
-The template will have 'map' (it is the ``easy_maps.models.Address``
-instance auto-created for passed address on first access), 'width',
-'height' and 'zoom' variables. The outer template context is passed
-to rendered template as well.
+    {% easy_map address using 'map.html' %}
+    {% easy_map address 200 300 5 using 'map.html' %}
 
-The default template can be found here:
-https://bitbucket.org/kmike/django-easy-maps/src/tip/easy_maps/templates/easy_maps/map.html
+The template will have ``map`` (``easy_maps.Address`` instance
+auto-created for passed address on first access), ``width``, ``height``
+and ``zoom`` variables. The outer template context is passed to rendered
+template as well.
 
 You can start your own template from scratch or just override some blocks in the
 default template.
@@ -78,56 +128,20 @@ default template.
 Please refer to http://code.google.com/apis/maps/documentation/javascript/ for
 detailed Google Maps JavaScript API help.
 
-Customizing geocoder
---------------------
+Widgets
+-------
 
-To use a custom geocoder set EASY_MAPS_GEOCODE option::
+``django-easy-maps`` provides basic widget that displays a map under the address
+field. It can be used in admin for map previews. For example:
 
-    # settings.py
-
-    from django_easy_maps import geocode
-
-    def my_geocode(address):
-        """
-        Given an address (an unicode string), return
-        ``(computed_address, (latitude, longitude))`` tuple.
-        """
-        try:
-            # ...
-            return computed_address, (latitude, longitude)
-        except (...) as e:
-            raise geocode.Error(e)
-
-    EASY_MAPS_GEOCODE = my_geocode
-
-
-
-Address model
-=============
-
-``easy_maps.models.Address`` model has the following fields:
-
-* address - the requested address
-* computed_address - address returned by geocoder
-* longitude
-* latitude
-* geocode_error - True if geocoder wasn't able to handle the address
-
-Address model should be considered implementation detail. Its purpose is
-to avoid using geocoder for each request, that's a kind of persistent cache.
-It is included in readme because information about available data can
-be useful for custom map templates.
-
-Admin address preview
-=====================
-
-django-easy-maps provides basic widget that displays a map under the address
-field. It can be used in admin for map previews. Example usage::
+.. code-block:: python
 
     from django import forms
     from django.contrib import admin
+
     from easy_maps.widgets import AddressWithMapWidget
-    from firms.models import Firm
+
+    from .models import Firm
 
     class FirmAdmin(admin.ModelAdmin):
         class form(forms.ModelForm):
@@ -138,15 +152,16 @@ field. It can be used in admin for map previews. Example usage::
 
     admin.site.register(Firm, FirmAdmin)
 
-'address' field should be a CharField or TextField.
+``address`` field should be either a ``CharField`` or ``TextField``.
 
 Contributing
-============
+------------
 
 If you've found a bug, implemented a feature or customized the template and
 think it is useful then please consider contributing. Patches, pull requests or
 just suggestions are welcome!
 
-Source code: https://bitbucket.org/kmike/django-easy-maps/
+License
+-------
 
-Bug tracker: https://bitbucket.org/kmike/django-easy-maps/issues/new
+``django-easy-maps`` is released under the MIT license.

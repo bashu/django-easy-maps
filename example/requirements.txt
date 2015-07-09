@@ -1,0 +1,6 @@
+geopy
+django
+django-appconf
+django-classy-tags
+south
+mock
