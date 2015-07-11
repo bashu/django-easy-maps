@@ -23,6 +23,6 @@ def google_v3(address):
         if results is not None:
             return results[0]
 
-        raise Error('No results found')
+        raise Error("No results found for '%s'" % address)
     except (UnboundLocalError, ValueError, GeocoderServiceError) as e:
         raise Error(e)
