@@ -1,5 +1,5 @@
 import os
-from setuptools import setup, find_packages
+from distutils import setup, find_packages
 
 README = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 
@@ -17,6 +17,12 @@ setup(
         'easy_maps.templatetags',
         'easy_maps.south_migrations',
     ],
+    package_data={
+        'easy_maps': [
+            'templates/easy_maps/*',
+            'locale/*/LC_MESSAGES/*',
+        ]
+    },
     include_package_data=True,
     license='MIT License',
     description="This app makes it easy to display a map for a given address",
