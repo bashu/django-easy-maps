@@ -3,4 +3,4 @@ include CHANGES
 include LICENSE
 include README.rst
 recursive-include easy_maps/locale *
-recursive-include easy_maps/templates *.html
+recursive-include easy_maps/templates *
