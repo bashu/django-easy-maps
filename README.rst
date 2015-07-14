@@ -52,7 +52,7 @@ needs to be applied:
 
 .. code-block:: shell
 
-    python manage.py migrate easy_maps 0001 --fake
+    ./manage.py migrate easy_maps 0001 --fake
 
 Configuration (optional)
 ------------------------
