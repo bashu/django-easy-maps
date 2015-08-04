@@ -43,10 +43,10 @@ You'll need to add ``easy_maps`` to ``INSTALLED_APPS`` in your project's ``setti
 
 Then run ``./manage.py syncdb`` to create the required database tables
 
-Upgrading to 0.9.2
-~~~~~~~~~~~~~~~~~~
+Upgrading from 0.9.1
+~~~~~~~~~~~~~~~~~~~~
 
-Upgrading to 0.9.2 is likely to cause problems trying to apply a
+Upgrading from 0.9.1 is likely to cause problems trying to apply a
 migration when the tables already exist. In this case a fake migration
 needs to be applied:
 
