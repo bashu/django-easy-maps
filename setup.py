@@ -39,6 +39,7 @@ setup(
         'geopy>=0.96',
     ],    
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
