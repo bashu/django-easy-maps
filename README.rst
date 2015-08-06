@@ -14,12 +14,12 @@ Authored by `Mikhail Korobov <http://kmike.ru/>`_, and some great
 .. image:: https://img.shields.io/pypi/dm/django-easy-maps.svg
     :target: https://pypi.python.org/pypi/django-easy-maps/
 
-.. image:: https://img.shields.io/github/license/kmike/django-easy-maps.svg
+.. image:: https://img.shields.io/github/license/bashu/django-easy-maps.svg
     :target: https://pypi.python.org/pypi/django-easy-maps/
 
-.. image:: https://img.shields.io/travis/kmike/django-easy-maps.svg
-    :target: https://travis-ci.org/kmike/django-easy-maps/
-             
+.. image:: https://img.shields.io/travis/bashu/django-easy-maps.svg
+    :target: https://travis-ci.org/bashu/django-easy-maps/
+
 Installation
 ------------
 
