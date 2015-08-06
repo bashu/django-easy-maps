@@ -13,8 +13,9 @@ env:
 install:
   - pip install -q django==$DJANGO_VERSION
   - pip install -q -r example/requirements.txt
+  - pip install coveralls
 script:
-  - env PYTHONPATH=`pwd` python example/manage.py test easy_maps
+  - env PYTHONPATH=`pwd` coverage run --source=easy_maps example/manage.py test easy_maps
 matrix:
   exclude:
     - python: "3.4"
