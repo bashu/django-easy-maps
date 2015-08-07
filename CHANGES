@@ -2,6 +2,7 @@ WIP
 ------------------
 
 - Revert from setuptools back to distutils.
+- Russian translation is added.
 
 0.9.2 (2015-07-12)
 ------------------
