@@ -4,6 +4,7 @@ import logging
 import collections
 
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from . import geocode
@@ -34,7 +35,8 @@ class AddressManager(models.Manager):
 
         return None
 
-    
+
+@python_2_unicode_compatible  
 class Address(models.Model):
 
     address = models.CharField(_('address'), max_length=255, unique=True)
@@ -54,7 +56,7 @@ class Address(models.Model):
         verbose_name = _("EasyMaps Address")
         verbose_name_plural = _("Address Geocoding Cache")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.address
 
     def save(self, *args, **kwargs):
