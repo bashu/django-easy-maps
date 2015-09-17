@@ -177,4 +177,5 @@ License
 
 ``django-easy-maps`` is released under the MIT license.
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bashu/django-easy-maps/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+.. image:: https://d2weczhvl823v0.cloudfront.net/bashu/django-easy-maps/trend.png
+   :target: https://bitdeli.com/free
