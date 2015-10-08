@@ -20,9 +20,9 @@ class EasyMapTag(InclusionTag):
 
     {% easy_map <address> [<width> <height>] [<zoom>] [using <template_name>] %}
 
-    The "address" parameter can be an ``easy_maps.Address`` instance or a string
-    describing it.  If an address is not found a new entry is created
-    in the database.
+    The "address" parameter can be an ``easy_maps.Address`` instance
+    or a string describing it.  If an address is not found a new entry
+    is created in the database.
 
     """
     name = 'easy_map'
@@ -37,12 +37,14 @@ class EasyMapTag(InclusionTag):
     )
 
     def render_tag(self, context, **kwargs):
-        params = dict((k,v) for k,v in kwargs.items() if v is not None)
+        params = dict((k, v) for k, v in kwargs.items() if v is not None)
         if len(params.keys()) == 3 or len(params.keys()) > 5:
-            raise template.TemplateSyntaxError("easy_map tag has the following syntax: "
-                "{% easy_map <address> [<width> <height>] [zoom] [using <template_name>] %}")
+            raise template.TemplateSyntaxError(
+                "easy_map tag has the following syntax: "
+                "{% easy_map <address> [<width> <height>] [zoom] [using <template_name>] %}"
+            )
         return super(EasyMapTag, self).render_tag(context, **kwargs)
-    
+
     def get_template(self, context, **kwargs):
         return kwargs.get('template_name', None) or self.template
 
@@ -56,7 +58,7 @@ class EasyMapTag(InclusionTag):
             return Address.objects.get_or_create(address=address)[0]
 
         raise NotImplementedError
-                                               
+
     def get_context(self, context, **kwargs):
         kwargs.update({'map': self.parse_address(kwargs.pop('address'))})
         return kwargs
