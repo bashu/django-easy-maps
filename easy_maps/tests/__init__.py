@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import mock
+# import mock
 
 from django import template
 from django.test import TestCase
@@ -13,7 +13,7 @@ except ImportError:
     def override_settings(*args, **kwargs):
         return unittest.skip("overriding settings is not supported by this django version")
 
-from .models import Address
+from easy_maps.models import Address
 
 
 class AddressTests(TestCase):
@@ -35,11 +35,8 @@ class AddressTests(TestCase):
 
     # @override_settings(EASY_MAPS_CENTER=fake_default_center)
     # def test_empty_address_use_defaults(self):
-    #     """When an empty address is passed uses the EASY_MAPS_CENTER setting"""
-    #     a = ""
-    #     simple_template_string = """{%% load easy_maps_tags %%}
-    #     {%% easy_map "%s" 500 500 10 %%}
-    #     """ % a
+    #     # When an empty address is passed uses the EASY_MAPS_CENTER setting
+    #     html = """{%% load easy_maps_tags %%}{%% easy_map '%(varname)s' 500 500 10 %%}"""
 
     #     address = [None]  # nonlocal
 
@@ -49,7 +46,7 @@ class AddressTests(TestCase):
     #         address[0] = kwargs['context_instance']['map']
     #         return ''
 
-    #     t = template.Template(simple_template_string)
+    #     t = template.Template(html % {"varname": ""})
     #     with mock.patch('easy_maps.templatetags.easy_maps_tags.render_to_string', get_map_context_instance):
     #         t.render(template.Context({}))
 
