@@ -1,7 +1,7 @@
 {% with map.latitude|stringformat:"f" as lat %}{% with map.longitude|stringformat:"f" as long %}
 
 {% block api_js %}
-  <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&key={{ key }}"></script>
 {% endblock %}
 
 {% block html %}
@@ -13,7 +13,7 @@
     class="easy-map-googlemap">
     {% block noscript %}{% if map.computed_address %}
       <noscript>
-        <img alt="Map of {{ map.address }}" src="https://maps.google.com/maps/api/staticmap?center={{ lat }},{{ long }}&zoom={{ zoom }}&markers={{ lat }},{{ long }}&size={{ width|default:"320" }}x{{ height|default:"240" }}&sensor=false">
+        <img alt="Map of {{ map.address }}" src="https://maps.google.com/maps/api/staticmap?center={{ lat }},{{ long }}&zoom={{ zoom }}&markers={{ lat }},{{ long }}&size={{ width|default:"320" }}x{{ height|default:"240" }}&sensor=false&key={{ key }}">
       </noscript>
     {% endif %}{% endblock %}
     {% if not map.computed_address %}<!-- geocoding error -->{% endif %}
