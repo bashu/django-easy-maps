@@ -27,8 +27,8 @@ class EasyMapTag(InclusionTag):
     template = 'easy_maps/map.html'
     options = Options(
         Argument('address', resolve=True, required=True),
-        IntegerArgument('width', required=False, default=None),
-        IntegerArgument('height', required=False, default=None),
+        Argument('width', required=False, default=None),
+        Argument('height', required=False, default=None),
         IntegerArgument('zoom', required=False, default=None),
         'using',
         Argument('template_name', default=None, required=False),
