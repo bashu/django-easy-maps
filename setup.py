@@ -59,12 +59,13 @@ setup(
 
     url='https://github.com/bashu/django-easy-maps',
     download_url='https://github.com/bashu/django-easy-maps/zipball/master',
-    
+
     packages=find_packages(exclude=('example*', '*.tests*')),
     include_package_data=True,
 
     tests_require=[
         'django-setuptest',
+        'south',
         'mock',
     ],
     test_suite='setuptest.setuptest.SetupTestSuite',
@@ -81,7 +82,7 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',        
+        'Programming Language :: Python :: 3.4',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
