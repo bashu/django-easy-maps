@@ -83,3 +83,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+EASY_MAPS_GOOGLE_MAPS_API_KEY = "AIzaSyATg_isuGSCHIlJamrxAXfkFDTYhIz7ytM"
