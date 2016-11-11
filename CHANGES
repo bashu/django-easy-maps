@@ -1,14 +1,19 @@
+WIP        
+------------------
+
+- Revert from setuptools back to distutils.
+- Russian translation is added.
 
 0.9.2 (2015-07-12)
 ------------------
 
-- Replacing broken 0.9.1 release, back to setuptools
+- Replacing broken 0.9.1 release, back to setuptools.
 
 0.9.1 (2015-07-02)
 ------------------
 
-- Resolve the 500 error when google send a no results info
-- Resolving width / height and other variables in template
+- Resolve the 500 error when google send a no results info.
+- Resolving width / height and other variables in template.
 
 0.9 (2014-02-11)
 ----------------

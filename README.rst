@@ -1,9 +1,10 @@
 django-easy-maps
 ================
 
-This app makes it easy to display a map for given address in django templates.
-No API keys, manual geocoding, html/js copy-pasting or django model
-changes is needed.
+This app makes it easy to display a map for any given address in
+`Django <https://www.djangoproject.com>`_ templates.
+No API keys, manual geocoding, html/js copy-pasting or Django model
+changes are needed.
 
 Authored by `Mikhail Korobov <http://kmike.ru/>`_, and some great
 `contributors <https://github.com/kmike/django-easy-maps/contributors>`_.
@@ -14,12 +15,12 @@ Authored by `Mikhail Korobov <http://kmike.ru/>`_, and some great
 .. image:: https://img.shields.io/pypi/dm/django-easy-maps.svg
     :target: https://pypi.python.org/pypi/django-easy-maps/
 
-.. image:: https://img.shields.io/github/license/kmike/django-easy-maps.svg
+.. image:: https://img.shields.io/github/license/bashu/django-easy-maps.svg
     :target: https://pypi.python.org/pypi/django-easy-maps/
 
-.. image:: https://img.shields.io/travis/kmike/django-easy-maps.svg
-    :target: https://travis-ci.org/kmike/django-easy-maps/
-             
+.. image:: https://img.shields.io/travis/bashu/django-easy-maps.svg
+    :target: https://travis-ci.org/bashu/django-easy-maps/
+
 Installation
 ------------
 
@@ -41,27 +42,45 @@ You'll need to add ``easy_maps`` to ``INSTALLED_APPS`` in your project's ``setti
             'south',
         )
 
-Then run ``./manage.py syncdb`` to create the required database tables
+Then run ``./manage.py migrate`` to create the required database tables.
 
-Configuration (optional)
-------------------------
+Upgrading from 0.9
+~~~~~~~~~~~~~~~~~~
 
-If you need a place where center the map when no address is inserted
-yet add the latitude and longitude to the ``EASY_MAPS_CENTER`` variable in
+Upgrading from 0.9 is likely to cause problems trying to apply a
+migration when the tables already exist. In this case a fake migration
+needs to be applied:
+
+.. code-block:: shell
+
+    ./manage.py migrate easy_maps 0001 --fake
+
+Configuration
+-------------
+
+The only mandatory configuration is the
+``EASY_MAPS_GOOGLE_MAPS_API_KEY`` variable:
+
+.. code-block:: python
+
+    EASY_MAPS_GOOGLE_MAPS_API_KEY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ___0123456789'
+
+If you need a place to center the map at when no address is inserted
+yet, add the latitude and longitude to the ``EASY_MAPS_CENTER`` variable in
 your ``settings.py`` like the following:
 
 .. code-block:: python
 
     EASY_MAPS_CENTER = (-41.3, 32)
 
-To use a custom geocoder set ``EASY_MAPS_GEOCODE`` option:
+To use a custom geocoder set the ``EASY_MAPS_GEOCODE`` option:
 
 .. code-block:: python
 
     # Default: 'easy_maps.geocode.google_v3'
     EASY_MAPS_GEOCODE = 'example.custom_geocode'
 
-Please see ``example`` application. This application is used to
+Please see the ``example`` application. This application is used to
 manually test the functionalities of this package. This also serves as
 a good example.
 
@@ -109,7 +128,7 @@ later in order to prevent DB access on each map render:
 Templates
 ---------
 
-If the default map template is not sufficient then custom map template can be
+If the default map template is not sufficient then a custom map template can be
 used. For example:
 
 .. code-block:: html+django
@@ -119,20 +138,20 @@ used. For example:
 
 The template will have ``map`` (``easy_maps.Address`` instance
 auto-created for passed address on first access), ``width``, ``height``
-and ``zoom`` variables. The outer template context is passed to rendered
+and ``zoom`` variables. The outer template context is passed to the rendered
 template as well.
 
 You can start your own template from scratch or just override some blocks in the
 default template.
 
-Please refer to http://code.google.com/apis/maps/documentation/javascript/ for
+Please refer to https://developers.google.com/maps/documentation/javascript/ for
 detailed Google Maps JavaScript API help.
 
 Widgets
 -------
 
-``django-easy-maps`` provides basic widget that displays a map under the address
-field. It can be used in admin for map previews. For example:
+``django-easy-maps`` provides a basic widget that displays a map under the address
+field. It can be used in the admin for map previews. For example:
 
 .. code-block:: python
 
