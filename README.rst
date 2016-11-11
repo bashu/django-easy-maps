@@ -55,8 +55,15 @@ needs to be applied:
 
     ./manage.py migrate easy_maps 0001 --fake
 
-Configuration (optional)
-------------------------
+Configuration
+-------------
+
+The only mandatory configuration is the
+``EASY_MAPS_GOOGLE_MAPS_API_KEY`` variable:
+
+.. code-block:: python
+
+    EASY_MAPS_GOOGLE_MAPS_API_KEY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ___0123456789'
 
 If you need a place to center the map at when no address is inserted
 yet, add the latitude and longitude to the ``EASY_MAPS_CENTER`` variable in

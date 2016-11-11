@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import template
+from django.core.exceptions import ImproperlyConfigured
 
 from classytags.core import Options
 from classytags.helpers import InclusionTag
@@ -10,6 +11,19 @@ from ..conf import settings
 from ..models import Address
 
 register = template.Library()
+
+
+def parse_address(address=None):
+    if isinstance(address, Address):
+        return address
+
+    if not address:
+        return Address(
+            latitude=settings.EASY_MAPS_CENTER[0],
+            longitude=settings.EASY_MAPS_CENTER[1],
+        )
+
+    return Address.objects.get_or_create(address=address)[0]
 
 
 class EasyMapTag(InclusionTag):
@@ -41,29 +55,22 @@ class EasyMapTag(InclusionTag):
                 "easy_map tag has the following syntax: "
                 "{% easy_map <address> [<width> <height>] [zoom] [using <template_name>] %}"
             )
+
+        if settings.EASY_MAPS_GOOGLE_MAPS_API_KEY is None:
+            raise ImproperlyConfigured(
+                "easy_map tag requires EASY_MAPS_GOOGLE_MAPS_API_KEY to be set in global settings "
+                "because of the restrictions introduced in Google Maps API v3 by Google, Inc."
+            )
         return super(EasyMapTag, self).render_tag(context, **kwargs)
 
     def get_template(self, context, **kwargs):
         return kwargs.get('template_name', None) or self.template
 
-    def parse_address(self, address=None):
-        if isinstance(address, Address):
-            return address
-
-        if not address:
-            return Address(
-                latitude=settings.EASY_MAPS_CENTER[0],
-                longitude=settings.EASY_MAPS_CENTER[1],
-            )
-        else:
-            return Address.objects.get_or_create(address=address)[0]
-
-        raise NotImplementedError
-
     def get_context(self, context, **kwargs):
-        kwargs.update({'map': self.parse_address(kwargs.pop('address'))})
+        kwargs.update({'map': parse_address(kwargs.pop('address'))})
         if not kwargs.get('zoom', None):
             kwargs['zoom'] = 16  # default value
+        kwargs['api_key'] = settings.EASY_MAPS_GOOGLE_MAPS_API_KEY
         return kwargs
 
 register.tag(EasyMapTag)
