@@ -13,3 +13,5 @@ if django.VERSION < (1, 7):
     INSTALLED_APPS += (
         'south',
     )
+
+EASY_MAPS_GOOGLE_MAPS_API_KEY = "AIzaSyATg_isuGSCHIlJamrxAXfkFDTYhIz7ytM"
