@@ -34,30 +34,6 @@ class AddressTests(TestCase):
 
         self.assertEqual(after_count, before_count)
 
-    # @override_settings(EASY_MAPS_CENTER=fake_default_center)
-    # def test_empty_address_use_defaults(self):
-    #     # When an empty address is passed uses the EASY_MAPS_CENTER
-    #     # setting
-    #     html = "{%% load easy_maps_tags %%}{%% easy_map '%(v)s' 500 500 10 %%}"
-
-    #     address = [None]  # nonlocal
-
-    #     # below we patch the render_to_string in order to retrieve the
-    #     # map context variable and check its coordinate
-    #     def get_map_context_instance(*args, **kwargs):
-    #         address[0] = kwargs['context_instance']['map']
-    #         return ''
-
-    #     t = template.Template(html % {"varname": ""})
-    #     with mock.patch(
-    #             'easy_maps.templatetags.easy_maps_tags.render_to_string', get_map_context_instance):
-    #         t.render(template.Context({}))
-
-    #     self.assertEqual(
-    #         address[0].latitude, AddressTests.fake_default_center[0])
-    #     self.assertEqual(
-    #         address[0].longitude, AddressTests.fake_default_center[1])
-
     @override_settings(EASY_MAPS_CENTER=fake_default_center)
     def test_normal_address(self):
         # If we pass an address don't use the defaults
