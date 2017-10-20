@@ -19,7 +19,7 @@
 {% block map_js %}{% if map.computed_address %}
   <!-- Map creation script -->
   <script type="text/javascript">
-    var initialize_map_{{ map.pk }} = (function() {
+    var initialize_map_{{ map.pk }} = function() {
         var latlng = new google.maps.LatLng({{ lat }}, {{ long }});
         var mapElem = document.getElementById("map-canvas-{{ map.pk }}");
 
@@ -40,7 +40,7 @@
                 title: "{{ map.address }}"
             });
         {% endblock %}
-     })();
+     };
   </script>
 {% endif %}{% endblock %}
 
