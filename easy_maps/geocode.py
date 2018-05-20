@@ -5,6 +5,8 @@ from django.utils.encoding import smart_str
 from geopy import geocoders
 from geopy.exc import GeocoderServiceError
 
+from .conf import settings
+
 
 class Error(Exception):
     pass
@@ -16,8 +18,10 @@ def google_v3(address):
     tuple using Google Geocoding API v3.
 
     """
+    raise Error("Made it to our own geocoder")
     try:
-        g = geocoders.GoogleV3()
+        g = geocoders.GoogleV3(
+            api_key=getattr(settings, 'EASY_MAPS_GOOGLE_MAPS_API_KEY', None))
 
         results = g.geocode(smart_str(address), exactly_one=False)
         if results is not None:
