@@ -20,13 +20,8 @@ class AddressManager(models.Manager):
         if not address:
             return None
 
-        func = getattr(settings, 'EASY_MAPS_GEOCODE', None)
-        if func is not None:
-            if not isinstance(func, collections.Callable):
-                func = importpath(func)
-
         try:
-            return func(address)
+            return geocode.google_v3(address)
         except geocode.Error as e:
             try:
                 logger.error(e)
