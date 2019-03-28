@@ -1,4 +1,22 @@
-import django
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 DATABASES = {
     'default': {
@@ -6,12 +24,9 @@ DATABASES = {
         'NAME': ':memory:'
     }
 }
-INSTALLED_APPS = (
+
+INSTALLED_APPS = [
     'easy_maps',
-)
-if django.VERSION < (1, 7):
-    INSTALLED_APPS += (
-        'south',
-    )
+]
 
 EASY_MAPS_GOOGLE_MAPS_API_KEY = "AIzaSyATg_isuGSCHIlJamrxAXfkFDTYhIz7ytM"

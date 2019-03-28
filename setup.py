@@ -65,7 +65,6 @@ setup(
 
     tests_require=[
         'django-setuptest',
-        'south',
         'mock',
     ],
     test_suite='setuptest.setuptest.SetupTestSuite',
