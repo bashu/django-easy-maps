@@ -1,4 +1,4 @@
-WIP        
+0.9.4 (2019-03-28)
 ------------------
 
 - Added support for django 2.x, dropped support for django < 1.11. It may
