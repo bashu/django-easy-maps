@@ -1,6 +1,14 @@
 WIP        
 ------------------
 
+- Added support for django 2.x, dropped support for django < 1.11. It may
+  still work with django 1.8, but this is no longer tested.
+- Make sure GoogleV3 geocoder respect API key.
+
+0.9.3 (2016-11-11)
+------------------
+
+- Google Maps API key configuration.
 - Revert from setuptools back to distutils.
 - Russian translation is added.
 

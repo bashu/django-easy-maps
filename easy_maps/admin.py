@@ -3,9 +3,11 @@
 from django import forms
 from django.contrib import admin
 
+from .models import Address
 from .widgets import AddressWithMapWidget
 
 
+@admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     list_display = [
         'address', 'computed_address', 'latitude', 'longitude']
