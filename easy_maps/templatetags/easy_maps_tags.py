@@ -49,8 +49,8 @@ class EasyMapTag(InclusionTag):
     )
 
     def render_tag(self, context, **kwargs):
-        params = dict((k, v) for k, v in kwargs.items() if v is not None)
-        if len(params.keys()) > 5:
+        params = dict((k, v) for k, v in kwargs.items() if v and k not in ['template_name'])
+        if 'address' in params and (len(params) == 2 or len(params) > 4):
             raise template.TemplateSyntaxError(
                 "easy_map tag has the following syntax: "
                 "{% easy_map <address> [<width> <height>] [zoom] [using <template_name>] %}"
