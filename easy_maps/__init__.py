@@ -1,1 +1,5 @@
-__version__ = "0.9.4"
+__version__ = "1.0.0"
+
+import warnings
+
+warnings.simplefilter('default')
