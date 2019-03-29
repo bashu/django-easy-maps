@@ -1,3 +1,9 @@
+WIP
+------------------
+
+- EASY_MAPS_GOOGLE_MAPS_API_KEY deprecated in favor of historical
+  EASY_MAPS_GOOGLE_KEY option.
+
 0.9.4 (2019-03-28)
 ------------------
 

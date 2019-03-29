@@ -119,4 +119,4 @@ STATIC_URL = '/static/'
 
 ## Easy Maps settings
 
-EASY_MAPS_GOOGLE_MAPS_API_KEY = "AIzaSyATg_isuGSCHIlJamrxAXfkFDTYhIz7ytM"
+EASY_MAPS_GOOGLE_KEY = "AIzaSyATg_isuGSCHIlJamrxAXfkFDTYhIz7ytM"

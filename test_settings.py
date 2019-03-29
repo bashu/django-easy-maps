@@ -29,4 +29,4 @@ INSTALLED_APPS = [
     'easy_maps',
 ]
 
-EASY_MAPS_GOOGLE_MAPS_API_KEY = "AIzaSyATg_isuGSCHIlJamrxAXfkFDTYhIz7ytM"
+EASY_MAPS_GOOGLE_KEY = "AIzaSyATg_isuGSCHIlJamrxAXfkFDTYhIz7ytM"

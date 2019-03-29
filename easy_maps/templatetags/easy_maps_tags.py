@@ -56,9 +56,9 @@ class EasyMapTag(InclusionTag):
                 "{% easy_map <address> [<width> <height>] [zoom] [using <template_name>] %}"
             )
 
-        if settings.EASY_MAPS_GOOGLE_MAPS_API_KEY is None:
+        if settings.EASY_MAPS_GOOGLE_KEY is None and settings.EASY_MAPS_GOOGLE_MAPS_API_KEY is None:
             raise ImproperlyConfigured(
-                "easy_map tag requires EASY_MAPS_GOOGLE_MAPS_API_KEY to be set in global settings "
+                "easy_map tag requires EASY_MAPS_GOOGLE_KEY to be set in global settings "
                 "because of the restrictions introduced in Google Maps API v3 by Google, Inc."
             )
         return super(EasyMapTag, self).render_tag(context, **kwargs)
@@ -70,7 +70,7 @@ class EasyMapTag(InclusionTag):
         kwargs.update({'map': parse_address(kwargs.pop('address'))})
         if not kwargs.get('zoom', None):
             kwargs['zoom'] = 16  # default value
-        kwargs['api_key'] = settings.EASY_MAPS_GOOGLE_MAPS_API_KEY
+        kwargs['api_key'] = settings.EASY_MAPS_GOOGLE_KEY or settings.EASY_MAPS_GOOGLE_MAPS_API_KEY
         return kwargs
 
 register.tag(EasyMapTag)
