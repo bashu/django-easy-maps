@@ -23,7 +23,7 @@ def parse_address(address=None):
             longitude=settings.EASY_MAPS_CENTER[1],
         )
 
-    return Address.objects.get_or_create(address=address)[0]
+    return Address.objects.for_address(address)
 
 
 class EasyMapTag(InclusionTag):

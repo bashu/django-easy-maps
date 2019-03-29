@@ -15,6 +15,8 @@ class EasyMapsSettings(AppConf):
     GOOGLE_MAPS_API_KEY = None
     GOOGLE_KEY = None
 
+    CACHE_LIFETIME = 600  # 10 minutes in seconds
+
     class Meta:
         prefix = 'easy_maps'
         holder = 'easy_maps.conf.settings'
