@@ -10,6 +10,8 @@ from appconf import AppConf
 class EasyMapsSettings(AppConf):
     CENTER = (-41.3, 32)
     GEOCODE = 'easy_maps.geocode.google_v3'
+    ZOOM = 16  # See https://developers.google.com/maps/documentation/javascript/tutorial#MapOptions for more information.
+    LANGUAGE = 'en'  # See https://developers.google.com/maps/faq#languagesupport for supported languages.
     GOOGLE_MAPS_API_KEY = None
     GOOGLE_KEY = None
 

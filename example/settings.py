@@ -120,3 +120,5 @@ STATIC_URL = '/static/'
 ## Easy Maps settings
 
 EASY_MAPS_GOOGLE_KEY = "AIzaSyATg_isuGSCHIlJamrxAXfkFDTYhIz7ytM"
+EASY_MAPS_ZOOM = 16
+EASY_MAPS_LANGUAGE = 'ru'

@@ -69,7 +69,8 @@ class EasyMapTag(InclusionTag):
     def get_context(self, context, **kwargs):
         kwargs.update({'map': parse_address(kwargs.pop('address'))})
         if not kwargs.get('zoom', None):
-            kwargs['zoom'] = 16  # default value
+            kwargs['zoom'] = settings.EASY_MAPS_ZOOM  # default value
+        kwargs['language'] = settings.EASY_MAPS_LANGUAGE
         kwargs['api_key'] = settings.EASY_MAPS_GOOGLE_KEY or settings.EASY_MAPS_GOOGLE_MAPS_API_KEY
         return kwargs
 

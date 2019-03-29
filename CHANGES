@@ -1,6 +1,8 @@
 WIP
 ------------------
 
+- Added new option EASY_MAPS_ZOOM (16 by default).
+- Added new option EASY_MAPS_LANGUAGE ('en' by default).
 - EASY_MAPS_GOOGLE_MAPS_API_KEY deprecated in favor of historical
   EASY_MAPS_GOOGLE_KEY option.
 
