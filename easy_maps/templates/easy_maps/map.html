@@ -45,6 +45,6 @@
 {% endif %}{% endblock %}
 
 {% block api_js %}
-  <script type="text/javascript" src="https://maps.google.com/maps/api/js?key={{ api_key }}&language={{ language|default:"en" }}&callback=initialize_map_{{ map.pk }}" async defer></script>
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?key={{ api_key }}&language={{ language|default:"en" }}{% if map.computed_address %}&callback=initialize_map_{{ map.pk }}{% endif %}" async defer></script>
 {% endblock %}
 {% endwith %}{% endwith %}
