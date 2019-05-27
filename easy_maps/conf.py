@@ -21,5 +21,5 @@ class EasyMapsSettings(AppConf):
         prefix = 'easy_maps'
         holder = 'easy_maps.conf.settings'
 
-if hasattr(settings, 'EASY_MAPS_GOOGLE_MAPS_API_KEY'):
+if settings.EASY_MAPS_GOOGLE_MAPS_API_KEY is not None:
     warnings.warn("EASY_MAPS_GOOGLE_MAPS_API_KEY is deprecated, use EASY_MAPS_GOOGLE_KEY", DeprecationWarning)
