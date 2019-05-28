@@ -1,3 +1,8 @@
+1.0.2 (2019-05-28)
+------------------
+
+- Check is EASY_MAPS_GOOGLE_MAPS_API_KEY is not None before raising warning.
+
 1.0.1 (2019-04-21)
 ------------------
 
