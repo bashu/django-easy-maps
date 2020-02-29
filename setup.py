@@ -43,9 +43,10 @@ setup(
         'django-classy-tags>=0.6.2',
         'django-appconf',
         'geopy>=0.96',
+        'six>=1.9.0'
     ],
     requires=[
-        'Django (>=1.4.2)',
+        'Django (>=1.11.0)',
     ],
 
     description="This app makes it easy to display a map for a given address",
