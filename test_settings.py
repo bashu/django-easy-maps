@@ -1,3 +1,6 @@
+
+SECRET_KEY = 'DUMMY_SECRET_KEY'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
