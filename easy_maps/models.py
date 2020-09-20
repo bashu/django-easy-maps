@@ -2,7 +2,10 @@
 
 import sys
 import logging
-import collections
+try:
+    from collections.abc import Callable
+except ImportError:
+    from collections import Callable
 from datetime import timedelta
 
 from django.db import models
@@ -62,7 +65,7 @@ class Address(models.Model):
 
         func = getattr(settings, 'EASY_MAPS_GEOCODE', None)
         if func is not None:
-            if not isinstance(func, collections.Callable):
+            if not isinstance(func, Callable):
                 func = importpath(func)
 
         try:
