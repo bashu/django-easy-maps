@@ -18,7 +18,7 @@ Authored by `Mikhail Korobov <http://kmike.ru/>`_, and some great
     :target: https://pypi.python.org/pypi/django-easy-maps/
 
 .. image:: https://img.shields.io/travis/bashu/django-easy-maps.svg
-    :target: https://travis-ci.com/bashu/django-easy-maps/
+    :target: https://travis-ci.com/github/bashu/django-easy-maps/
 
 Installation
 ============
