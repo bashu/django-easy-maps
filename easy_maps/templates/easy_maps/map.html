@@ -85,7 +85,7 @@
         {% endblock %}
     };
   {% else %}
-    {% if map.has_exception %}console.exception("{{ map.exception|safe }}");{% endif %}
+    {% if map.has_exception %}console.error("{{ map.exception|safe }}");{% endif %}
   {% endif %}</script>
 {% endblock %}
 
