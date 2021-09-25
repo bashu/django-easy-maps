@@ -59,6 +59,14 @@ your ``settings.py`` like the following:
 
     EASY_MAPS_CENTER = (-41.3, 32)
 
+Other optional settings:
+
+.. code-block:: python
+
+    # Optional
+    EASY_MAPS_ZOOM = 8  # Default zoom level, see https://developers.google.com/maps/documentation/javascript/tutorial#MapOptions for more information.
+    EASY_MAPS_LANGUAGE = 'ru'  # See https://developers.google.com/maps/faq#languagesupport for supported languages.
+
 Please see the ``example`` application. This application is used to
 manually test the functionalities of this package. This also serves as
 a good example.
