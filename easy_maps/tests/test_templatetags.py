@@ -6,7 +6,7 @@ from django import template
 from django.test import TestCase
 from django.test.utils import override_settings
 
-from .models import Address
+from easy_maps.models import Address
 
 
 class AddressTests(TestCase):
