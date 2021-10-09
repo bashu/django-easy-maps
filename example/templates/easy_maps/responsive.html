@@ -1,12 +1,12 @@
 {% extends "easy_maps/map.html" %}
 
+{% load i18n %}
+
 {% block html %}
-<div id="map-canvas-{{ map.pk }}"
-  {% if map.computed_address %}
-    style="width: 100% !important; height: {{ height|default:"240" }}px;"
-  {% endif %}
-  class="easy-map-googlemap">
+<div id="map-canvas-{{ map.pk }}" style="width: 100% !important; height: {{ height|default:"240" }}px;" class="easy-map-googlemap">
   {% block noscript %}{{ block.super }}{% endblock %}
-  {% if not map.computed_address %}<!-- geocoding error -->{% endif %}
+  {% if not map.computed_address %}
+    <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);"><div class="gm-err-container"><div class="gm-err-content"><div class="gm-err-icon"><img src="//maps.gstatic.com/mapfiles/api-3/images/icon_error.png" draggable="false" style="-moz-user-select: none;"></div><div class="gm-err-title">{% trans "Oops! Something went wrong." %}</div><div class="gm-err-message">{% trans "This page didn't load Google Maps correctly. See the JavaScript console for technical details." %}</div></div></div></div>
+  {% endif %}
 </div>
 {% endblock %}
