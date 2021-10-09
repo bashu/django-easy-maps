@@ -6,7 +6,7 @@ from django import template
 from django.test import TestCase
 from django.test.utils import override_settings
 
-from .models import Address
+from easy_maps.models import Address
 
 
 class AddressTests(TestCase):
@@ -38,18 +38,15 @@ class AddressTests(TestCase):
         # map context variable and check its coordinate
         def get_address_instance(*args, **kwargs):
             template_name, context = args
-            address[0] = context['map']
-            return ''
+            address[0] = context["map"]
+            return ""
 
         t = template.Template(html % {"v": ""})
-        with mock.patch(
-                'classytags.helpers.render_to_string', get_address_instance):
+        with mock.patch("classytags.helpers.render_to_string", get_address_instance):
             t.render(template.Context({}))
 
-        self.assertEqual(
-            address[0].latitude, AddressTests.fake_default_center[0])
-        self.assertEqual(
-            address[0].longitude, AddressTests.fake_default_center[1])
+        self.assertEqual(address[0].latitude, AddressTests.fake_default_center[0])
+        self.assertEqual(address[0].longitude, AddressTests.fake_default_center[1])
 
     @override_settings(EASY_MAPS_CENTER=fake_default_center)
     def test_normal_address(self):
@@ -65,10 +62,8 @@ class AddressTests(TestCase):
 
         address = Address.objects.get(address=a)
 
-        self.assertNotEqual(
-            address.latitude, AddressTests.fake_default_center[0])
-        self.assertNotEqual(
-            address.longitude, AddressTests.fake_default_center[1])
+        self.assertNotEqual(address.latitude, AddressTests.fake_default_center[0])
+        self.assertNotEqual(address.longitude, AddressTests.fake_default_center[1])
 
         n_addresses_after = len(Address.objects.all())
 
@@ -82,12 +77,12 @@ class AddressTests(TestCase):
         html = "{%% load easy_maps_tags %%}{%% easy_map %(v)s 500 500 10 %%}"
 
         # create a fake address
-        a = Address.objects.create(address='fake')
+        a = Address.objects.create(address="fake")
 
         n_addresses_before = len(Address.objects.all())
 
-        t = template.Template(html % {'v': 'address'})
-        ctx = template.Context({'v': a})
+        t = template.Template(html % {"v": "address"})
+        ctx = template.Context({"v": a})
 
         self.assertNumQueries(0, lambda: t.render(ctx))
 

@@ -15,7 +15,9 @@ class AddressWithMapWidget(TextInput):
         output = super(AddressWithMapWidget, self).render(name, value, attrs, renderer)
 
         t = template.Template(self.tpl.format(self))
-        context = template.Context({
-            'address': value,
-        })
+        context = template.Context(
+            {
+                "address": value,
+            }
+        )
         return output + t.render(context)

@@ -19,7 +19,7 @@ def google_v3(address):
 
     """
     try:
-        g = geocoders.GoogleV3(api_key=settings.EASY_MAPS_GOOGLE_KEY or settings.EASY_MAPS_GOOGLE_MAPS_API_KEY)
+        g = geocoders.GoogleV3(api_key=settings.EASY_MAPS_GOOGLE_KEY)
 
         results = g.geocode(smart_str(address), exactly_one=False)
         if results is not None:
