@@ -1,13 +1,6 @@
 django-easy-maps
 ================
 
-This app makes it easy to display a map for any given address in
-django_ templates. No manual geocoding, html/js copy-pasting or Django
-model changes are needed.
-
-Authored by `Mikhail Korobov <http://kmike.ru/>`_, and some great
-`contributors <https://github.com/kmike/django-easy-maps/contributors>`_.
-
 .. image:: https://img.shields.io/pypi/v/django-easy-maps.svg
     :target: https://pypi.python.org/pypi/django-easy-maps/
 
@@ -20,8 +13,15 @@ Authored by `Mikhail Korobov <http://kmike.ru/>`_, and some great
 .. image:: https://img.shields.io/travis/bashu/django-easy-maps.svg
     :target: https://travis-ci.com/github/bashu/django-easy-maps/
 
+This app makes it easy to display a map for any given address in
+django_ templates. No manual geocoding, html/js copy-pasting or Django
+model changes are needed.
+
+Maitained by `Basil Shubin <https://github.com/bashu/>`_, and some great
+`contributors <https://github.com/kmike/django-easy-maps/contributors>`_.
+
 Installation
-============
+------------
 
 First install the module, preferably in a virtual environment. It can be installed from PyPI:
 
@@ -30,7 +30,7 @@ First install the module, preferably in a virtual environment. It can be install
     pip install django-easy-maps
 
 Setup
-=====
+-----
 
 You'll need to add ``easy_maps`` to ``INSTALLED_APPS`` in your project's ``settings.py`` file:
 
@@ -43,7 +43,7 @@ You'll need to add ``easy_maps`` to ``INSTALLED_APPS`` in your project's ``setti
 Then run ``./manage.py migrate`` to create the required database tables.
 
 Configuration
-=============
+-------------
 
 The only mandatory configuration is the ``EASY_MAPS_GOOGLE_KEY`` variable:
 
@@ -74,7 +74,7 @@ a good example.
 You need Django 1.8 or above to run that. It might run on older versions but that is not tested.
 
 Usage
-=====
+-----
 
 First of all, load the ``easy_map_tags`` in every template where you want to use it:
 
@@ -113,7 +113,7 @@ later in order to prevent DB access on each map render:
     {% endcache %}
 
 Templates
----------
+~~~~~~~~~
 
 If the default map template is not sufficient then a custom map template can be
 used. For example:
@@ -135,7 +135,7 @@ Please refer to https://developers.google.com/maps/documentation/javascript/ for
 detailed Google Maps JavaScript API help.
 
 Widgets
--------
+~~~~~~~
 
 ``django-easy-maps`` provides a basic widget that displays a map under the address
 field. It can be used in the admin for map previews. For example:
@@ -166,6 +166,11 @@ Contributing
 If you've found a bug, implemented a feature or customized the template and
 think it is useful then please consider contributing. Patches, pull requests or
 just suggestions are welcome!
+
+Credits
+-------
+
+`django-easy-maps <https://github.com/bashu/django-easy-maps/>`_ was originally started by `Mikhail Korobov <http://kmike.ru/>`_ who has now unfortunately abandoned the project.
 
 License
 -------
