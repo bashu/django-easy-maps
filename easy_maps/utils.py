@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -30,7 +28,7 @@ def importpath(path, error_text=None):
             result = getattr(result, attr)
         except (AttributeError, ValueError) as e:
             if error_text is not None:
-                raise ImproperlyConfigured('Error: %s can import "%s"' % (error_text, path))
+                raise ImproperlyConfigured(f'Error: {error_text} can import "{path}"')
             else:
                 raise exception
     return result

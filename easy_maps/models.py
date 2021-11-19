@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import logging
 import sys
 
@@ -79,7 +77,7 @@ class Address(models.Model):
             except Exception:
                 logger.error("Geocoding error for address '%s'", address)
 
-            self.exception = "{0.__name__}: {1}".format(sys.exc_info()[0], sys.exc_info()[1])
+            self.exception = f"{sys.exc_info()[0].__name__}: {sys.exc_info()[1]}"
 
     def has_exception(self):
         return bool(self.exception)
@@ -94,4 +92,4 @@ class Address(models.Model):
         if (self.longitude is None) or (self.latitude is None):
             self.fetch()
 
-        super(Address, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django import template
 from django.core.exceptions import ImproperlyConfigured
 
@@ -50,7 +48,7 @@ class EasyMapTag(InclusionTag):
     )
 
     def render_tag(self, context, **kwargs):
-        params = dict((k, v) for k, v in kwargs.items() if v and k not in ["template_name"])
+        params = {k: v for k, v in kwargs.items() if v and k not in ["template_name"]}
         if "address" in params and (len(params) == 2 or len(params) > 4):
             raise template.TemplateSyntaxError(
                 "easy_map tag has the following syntax: "
@@ -62,7 +60,7 @@ class EasyMapTag(InclusionTag):
                 "easy_map tag requires EASY_MAPS_GOOGLE_KEY to be set in global settings "
                 "because of the restrictions introduced in Google Maps API v3 by Google, Inc."
             )
-        return super(EasyMapTag, self).render_tag(context, **kwargs)
+        return super().render_tag(context, **kwargs)
 
     def get_template(self, context, **kwargs):
         return kwargs.get("template_name", None) or self.template

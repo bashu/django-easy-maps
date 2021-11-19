@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django.utils.encoding import smart_str
 
 from geopy import geocoders
