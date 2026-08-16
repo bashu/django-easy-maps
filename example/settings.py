@@ -8,6 +8,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
+import os
+
 # Build paths inside the project like this: BASE_DIR / ...
 from pathlib import Path
 
@@ -104,6 +106,12 @@ STATIC_URL = "/static/"
 
 ## Easy Maps settings
 
-EASY_MAPS_GOOGLE_KEY = "AIzaSyATg_isuGSCHIlJamrxAXfkFDTYhIz7ytM"
+# Get your own key at https://console.cloud.google.com/google/maps-apis and
+# export it before running the example, e.g.:
+#   export EASY_MAPS_GOOGLE_KEY="your-api-key-here"
+EASY_MAPS_GOOGLE_KEY = os.environ.get(
+    "EASY_MAPS_GOOGLE_KEY",
+    "YOUR_GOOGLE_MAPS_API_KEY",
+)
 EASY_MAPS_ZOOM = 16
 EASY_MAPS_LANGUAGE = "ru"
