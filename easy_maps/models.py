@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 import logging
 import sys
 
 try:
     from collections.abc import Callable
 except ImportError:
-    from collections import Callable
+    from collections.abc import Callable
 
 from datetime import timedelta
 
@@ -32,12 +30,16 @@ class AddressManager(models.Manager):
 
 
 class Address(models.Model):
-
     address = models.CharField(_("address"), max_length=255, unique=True)
 
     # for internal use...
 
-    computed_address = models.CharField(_("computed address"), max_length=255, null=True, blank=True)
+    computed_address = models.CharField(  # noqa: DJ001
+        _("computed address"),
+        max_length=255,
+        null=True,
+        blank=True,
+    )
     latitude = models.FloatField(_("latitude"), null=True, blank=True)
     longitude = models.FloatField(_("longitude"), null=True, blank=True)
 
@@ -54,39 +56,6 @@ class Address(models.Model):
     def __str__(self):
         return self.address
 
-    def expiry(self, *args, **kwargs):
-        return self.timestamp + timedelta(seconds=settings.EASY_MAPS_CACHE_LIFETIME)
-
-    def fetch(self):
-        if not self.address:
-            return None
-
-        func = getattr(settings, "EASY_MAPS_GEOCODE", None)
-        if func is not None:
-            if not isinstance(func, Callable):
-                func = importpath(func)
-
-        try:
-            self.computed_address, (
-                self.latitude,
-                self.longitude,
-            ) = func(self.address)
-        except geocode.Error as e:
-            self.computed_address = self.latitude = self.longitude = None  # shit happens
-
-            try:
-                logger.error(e)
-            except Exception:
-                logger.error("Geocoding error for address '%s'", address)
-
-            self.exception = "{0.__name__}: {1}".format(sys.exc_info()[0], sys.exc_info()[1])
-
-    def has_exception(self):
-        return bool(self.exception)
-
-    has_exception.short_description = _("has exception?")
-    has_exception.boolean = True
-
     def save(self, *args, **kwargs):
         if bool(self.computed_address) is False:  # just in case
             self.longitude = self.latitude = None
@@ -94,4 +63,39 @@ class Address(models.Model):
         if (self.longitude is None) or (self.latitude is None):
             self.fetch()
 
-        super(Address, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
+
+    def expiry(self, *args, **kwargs):
+        return self.timestamp + timedelta(seconds=settings.EASY_MAPS_CACHE_LIFETIME)
+
+    def fetch(self):
+        if not self.address:
+            return
+
+        func = getattr(settings, "EASY_MAPS_GEOCODE", None)
+        if func is not None:
+            if not isinstance(func, Callable):
+                func = importpath(func)
+
+        try:
+            (
+                self.computed_address,
+                (
+                    self.latitude,
+                    self.longitude,
+                ),
+            ) = func(self.address)
+        except geocode.Error:
+            self.computed_address = self.latitude = self.longitude = (
+                None  # shit happens
+            )
+
+            logger.exception("Geocoding error for address '%s'", self.address)
+
+            self.exception = f"{sys.exc_info()[0].__name__}: {sys.exc_info()[1]}"
+
+    def has_exception(self):
+        return bool(self.exception)
+
+    has_exception.short_description = _("has exception?")
+    has_exception.boolean = True

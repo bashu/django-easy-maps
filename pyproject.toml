@@ -1,0 +1,188 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [ "setuptools>=61" ]
+
+[project]
+name = "django-easy-maps"
+version = "1.1.4"
+description = "This app makes it easy to display a map for a given address"
+license = "MIT"
+maintainers = [ { name = "Basil Shubin", email = "basil.shubin@gmail.com" } ]
+authors = [ { name = "Mikhail Korobov", email = "kmike84@gmail.com" } ]
+requires-python = ">=3.10"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
+  "Framework :: Django",
+  "Framework :: Django :: 5.2",
+  "Framework :: Django :: 6.0",
+  "Framework :: Django :: 6.1",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dynamic = [ "readme" ]
+dependencies = [
+  "django>=5.2",
+  "django-appconf",
+  "django-classy-tags>=0.6.2",
+  "geopy>=0.96",
+]
+urls.download = "https://github.com/bashu/django-easy-maps/zipball/master"
+urls.homepage = "https://github.com/bashu/django-easy-maps/"
+
+[dependency-groups]
+dev = [
+  "coverage==7.15.4",
+  "django-stubs[compatible-mypy]==6.0.9",
+  "django-upgrade==1.31.1",
+  "djlint==1.44.2",
+  "factory-boy==3.3.3",
+  "jinja2==3.1.6",
+  "mypy==2.3.0",
+  "pre-commit==4.6.2",
+  "pytest==9.1.1",
+  "pytest-django==4.14.0",
+  "pytest-sugar==1.1.1",
+  "ruff==0.16.2",
+]
+
+[tool.setuptools]
+packages.find.include = [ "easy_maps*" ]
+include-package-data = true
+package-data.easy_maps = [ "locale/**/*", "templates/**/*.html" ]
+dynamic.readme = { file = [ "README.rst", "CHANGES.rst" ], content-type = "text/x-rst" }
+zip-safe = false
+
+# ==== djLint ====
+[tool.djlint]
+profile = "django"
+include = "H017,H035"
+indent = 2
+max_line_length = 119
+blank_line_after_tag = "load,extends"
+close_void_tags = true
+format_css = true
+format_js = true
+custom_blocks = "element,setvar,slot"
+# TODO: remove T002 when fixed https://github.com/djlint/djLint/issues/687
+ignore = "H006,H030,H031,T002"
+css.indent_size = 2
+js.indent_size = 2
+
+# ==== ruff ====
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+extend-exclude = [
+  "*/migrations/*.py",
+]
+lint.select = [
+  "A",
+  "ASYNC",
+  "B",
+  "BLE",
+  "C4",
+  "C90",
+  "COM",
+  "DJ",
+  "DTZ",
+  "E",
+  "EM",
+  "ERA",
+  "EXE",
+  "F",
+  "FA",
+  "FBT",
+  "FLY",
+  "G",
+  "I",
+  "ICN",
+  "INP",
+  "INT",
+  "ISC",
+  "N",
+  "PD",
+  "PERF",
+  "PGH",
+  "PIE",
+  "PL",
+  "PT",
+  "PTH",
+  "PYI",
+  "Q",
+  "RET",
+  "RSE",
+  "RUF",
+  "S",
+  "SIM",
+  "SLF",
+  "SLOT",
+  "T10",
+  "T20",
+  "TC",
+  "TID",
+  "TRY",
+  "UP",
+  "W",
+  "YTT",
+]
+lint.ignore = [
+  "RUF012", # Mutable class attributes should be annotated with `typing.ClassVar`
+  "S101",   # Use of assert detected https://docs.astral.sh/ruff/rules/assert/
+  "SIM102", # sometimes it's better to nest
+  # of types for comparison.
+  # Deactivated because it can make the code slow:
+  # https://github.com/astral-sh/ruff/issues/7871
+]
+lint.isort.default-section = "third-party"
+lint.isort.force-single-line = true
+lint.isort.known-first-party = [ "easy_maps" ]
+lint.isort.section-order = [ "future", "standard-library", "django", "third-party", "first-party", "local-folder" ]
+lint.isort.sections.django = [ "django" ]
+
+# ==== pyproject-fmt ====
+[tool.pyproject-fmt]
+keep_full_version = true
+
+# ==== mypy ====
+[tool.mypy]
+ignore_missing_imports = true
+python_version = "3.14"
+check_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+plugins = [
+  "mypy_django_plugin.main",
+]
+warn_unused_configs = true
+overrides = [
+  # Django migrations should not produce any errors:
+  { module = "*.migrations.*", ignore_errors = true },
+]
+
+[tool.django-stubs]
+django_settings_module = "easy_maps.tests.settings"
+
+[tool.pytest]
+ini_options.minversion = "6.0"
+ini_options.python_files = [
+  "test_*.py",
+  "tests.py",
+]
+# ==== pytest ====
+ini_options.addopts = [ "--ds=easy_maps.tests.settings", "--reuse-db", "--import-mode=importlib" ]
+
+# ==== Coverage ====
+[tool.coverage]
+run.omit = [ "*/migrations/*", "*/tests/*" ]
+run.relative_files = true
+run.source = [ "easy_maps" ]

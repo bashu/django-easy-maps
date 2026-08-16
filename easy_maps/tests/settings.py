@@ -1,24 +1,15 @@
-# -*- coding: utf-8 -*-
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
-import re
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-SECRET_KEY = "DUMMY_SECRET_KEY"
-
-INTERNAL_IPS = []
+SECRET_KEY = "DUMMY_SECRET_KEY"  # noqa: S105
 
 # Application definition
 
 PROJECT_APPS = ["easy_maps.tests", "easy_maps"]
 
 INSTALLED_APPS = [
-    "django.contrib.auth",
     "django.contrib.contenttypes",
+    "django.contrib.auth",
     "django.contrib.staticfiles",
-] + PROJECT_APPS
+    *PROJECT_APPS,
+]
 
 TEMPLATES = [
     {

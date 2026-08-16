@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-import mock
+from unittest import mock
 
 from django import template
 from django.test import TestCase
@@ -24,7 +22,7 @@ class AddressTests(TestCase):
 
         n_addresses_after = len(Address.objects.all())
 
-        self.assertEqual(n_addresses_after, n_addresses_before)
+        assert n_addresses_after == n_addresses_before
 
     @override_settings(EASY_MAPS_CENTER=fake_default_center)
     def test_empty_address_use_defaults(self):
@@ -37,7 +35,7 @@ class AddressTests(TestCase):
         # below we patch the render_to_string in order to retrieve the
         # map context variable and check its coordinate
         def get_address_instance(*args, **kwargs):
-            template_name, context = args
+            _template_name, context = args
             address[0] = context["map"]
             return ""
 
@@ -45,8 +43,8 @@ class AddressTests(TestCase):
         with mock.patch("classytags.helpers.render_to_string", get_address_instance):
             t.render(template.Context({}))
 
-        self.assertEqual(address[0].latitude, AddressTests.fake_default_center[0])
-        self.assertEqual(address[0].longitude, AddressTests.fake_default_center[1])
+        assert address[0].latitude == AddressTests.fake_default_center[0]
+        assert address[0].longitude == AddressTests.fake_default_center[1]
 
     @override_settings(EASY_MAPS_CENTER=fake_default_center)
     def test_normal_address(self):
@@ -62,12 +60,12 @@ class AddressTests(TestCase):
 
         address = Address.objects.get(address=a)
 
-        self.assertNotEqual(address.latitude, AddressTests.fake_default_center[0])
-        self.assertNotEqual(address.longitude, AddressTests.fake_default_center[1])
+        assert address.latitude != AddressTests.fake_default_center[0]
+        assert address.longitude != AddressTests.fake_default_center[1]
 
         n_addresses_after = len(Address.objects.all())
 
-        self.assertEqual(n_addresses_after, n_addresses_before + 1)
+        assert n_addresses_after == n_addresses_before + 1
 
     @override_settings(EASY_MAPS_CENTER=fake_default_center)
     def test_use_address_instance(self):
@@ -89,4 +87,4 @@ class AddressTests(TestCase):
         n_addresses_after = len(Address.objects.all())
 
         # no address is created in the process
-        self.assertEqual(n_addresses_after, n_addresses_before)
+        assert n_addresses_after == n_addresses_before

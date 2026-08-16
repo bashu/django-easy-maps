@@ -1,8 +1,12 @@
 {% load easy_maps_tags %}
-<html>
-  <head></head>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>django-easy-maps example</title>
+  </head>
   <body>
-    {% with 640 as w and 480 as h and "easy_maps/map.html" as t  %}
+    {% with 640 as w and 480 as h and "easy_maps/map.html" as t %}
       {% easy_map "Ekaterinburg, Mira 33" w h using t %}
     {% endwith %}
   </body>
