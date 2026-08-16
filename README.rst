@@ -1,17 +1,17 @@
 django-easy-maps
 ================
 
-.. image:: https://img.shields.io/pypi/v/django-easy-maps.svg
+.. image:: https://badge.fury.io/py/django-easy-maps.svg
+    :target: https://badge.fury.io/py/django-easy-maps
+
+.. image:: https://img.shields.io/pypi/pyversions/django-easy-maps.svg
     :target: https://pypi.python.org/pypi/django-easy-maps/
 
-.. image:: https://img.shields.io/pypi/dm/django-easy-maps.svg
+.. image:: https://img.shields.io/pypi/djversions/django-easy-maps.svg
     :target: https://pypi.python.org/pypi/django-easy-maps/
 
-.. image:: https://img.shields.io/github/license/bashu/django-easy-maps.svg
-    :target: https://pypi.python.org/pypi/django-easy-maps/
-
-.. image:: https://img.shields.io/travis/bashu/django-easy-maps.svg
-    :target: https://travis-ci.com/github/bashu/django-easy-maps/
+.. image:: https://github.com/bashu/django-easy-maps/actions/workflows/test.yml/badge.svg
+    :target: https://github.com/bashu/django-easy-maps/actions/workflows/test.yml
 
 This app makes it easy to display a map for any given address in
 django_ templates. No manual geocoding, html/js copy-pasting or Django
