@@ -1,14 +1,13 @@
 Changes
 -------
 
-1.1.4 (WIP)
+1.1.4 (2026-08-16)
 ~~~~~~~~~~~~~~~~~~
 
 * Dropped support for Python < 3.10 and Django < 5.2; added support for
   Python 3.10-3.14 and Django 5.2, 6.0 and 6.1.
-* Various lint/cleanup fixes: explicit exception chaining, use of
-  ``logger.exception``, ``Address`` model method ordering, and accessibility
-  fixes in the bundled map templates.
+* Fixed ``Address`` using the legacy ``AutoField`` instead of
+  ``BigAutoField`` for its primary key (#84).
 
 1.1.3 (2021-10-09)
 ~~~~~~~~~~~~~~~~~~
