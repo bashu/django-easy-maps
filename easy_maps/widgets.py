@@ -7,7 +7,7 @@ class AddressWithMapWidget(TextInput):
     height = 200
     zoom = 16
 
-    tpl = "{{% load easy_maps_tags %}}{{% easy_map address {0.width} {0.height} {0.zoom} %}}"
+    tpl = "{{% load easy_maps_tags %}}{{% easy_map address {0.width} {0.height} {0.zoom} %}}"  # noqa: E501
 
     def render(self, name, value, attrs=None, renderer=None):
         output = super().render(name, value, attrs, renderer)
@@ -16,6 +16,6 @@ class AddressWithMapWidget(TextInput):
         context = template.Context(
             {
                 "address": value,
-            }
+            },
         )
         return output + t.render(context)

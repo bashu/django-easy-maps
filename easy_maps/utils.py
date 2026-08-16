@@ -16,19 +16,19 @@ def importpath(path, error_text=None):
     while parts:
         try:
             result = __import__(".".join(parts), {}, {}, [""])
-        except ImportError as e:
+        except ImportError as exc:  # noqa: PERF203
             if exception is None:
-                exception = e
+                exception = exc
             attrs = parts[-1:] + attrs
             parts = parts[:-1]
         else:
             break
-    for attr in attrs:
-        try:
+    try:
+        for attr in attrs:
             result = getattr(result, attr)
-        except (AttributeError, ValueError) as e:
-            if error_text is not None:
-                raise ImproperlyConfigured(f'Error: {error_text} can import "{path}"')
-            else:
-                raise exception
+    except (AttributeError, ValueError) as exc:
+        if error_text is not None:
+            msg = f'Error: {error_text} can import "{path}"'
+            raise ImproperlyConfigured(msg) from exc
+        raise exception from exc
     return result
