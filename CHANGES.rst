@@ -1,6 +1,15 @@
 Changes
 -------
 
+1.1.5 (2026-08-17)
+~~~~~~~~~~~~~~~~~~
+
+* Fixed ``HasExceptionFilter`` in the admin not actually filtering on the
+  ``exception`` field, making its "Yes"/"No" options a no-op.
+* Fixed ``AddressAdmin``'s address field silently losing its map-preview
+  widget (``AddressWithMapWidget``) due to an unwired ``form`` override
+  introduced by the 1.1.4 modernization pass.
+
 1.1.4 (2026-08-16)
 ~~~~~~~~~~~~~~~~~~
 

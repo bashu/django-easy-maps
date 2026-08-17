@@ -18,7 +18,7 @@ class HasExceptionFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() is not None:
-            ids = Address.objects.values_list("pk", flat=True)
+            ids = Address.objects.exclude(exception="").values_list("pk", flat=True)
 
             if self.value() == "1":
                 return queryset.filter(pk__in=ids)
@@ -43,3 +43,5 @@ class AddressAdmin(admin.ModelAdmin):
     class Form(forms.ModelForm):
         class Meta:
             widgets = {"address": AddressWithMapWidget({"class": "vTextField"})}
+
+    form = Form
