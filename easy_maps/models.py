@@ -1,11 +1,6 @@
 import logging
 import sys
-
-try:
-    from collections.abc import Callable
-except ImportError:
-    from collections.abc import Callable
-
+from collections.abc import Callable
 from datetime import timedelta
 
 from django.db import models
