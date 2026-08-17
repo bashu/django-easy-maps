@@ -5,15 +5,15 @@
 | Name                                        |    Stmts |     Miss |   Cover |   Missing |
 |-------------------------------------------- | -------: | -------: | ------: | --------: |
 | easy\_maps/\_\_init\_\_.py                  |        0 |        0 |    100% |           |
-| easy\_maps/admin.py                         |       25 |       25 |      0% |      1-45 |
+| easy\_maps/admin.py                         |       26 |        0 |    100% |           |
 | easy\_maps/conf.py                          |       12 |        0 |    100% |           |
 | easy\_maps/geocode.py                       |       16 |        4 |     75% |     23-27 |
-| easy\_maps/models.py                        |       58 |        5 |     91% |6-7, 27, 57, 73 |
+| easy\_maps/models.py                        |       55 |        3 |     95% |22, 52, 68 |
 | easy\_maps/templatetags/\_\_init\_\_.py     |        0 |        0 |    100% |           |
-| easy\_maps/templatetags/easy\_maps\_tags.py |       38 |        6 |     84% |18, 55-60, 63-68, 77 |
+| easy\_maps/templatetags/easy\_maps\_tags.py |       38 |        0 |    100% |           |
 | easy\_maps/utils.py                         |       24 |        5 |     79% |     29-33 |
-| easy\_maps/widgets.py                       |       12 |       12 |      0% |      1-21 |
-| **TOTAL**                                   |  **185** |   **57** | **69%** |           |
+| easy\_maps/widgets.py                       |       12 |        0 |    100% |           |
+| **TOTAL**                                   |  **183** |   **12** | **93%** |           |
 
 
 ## Setup coverage badge
