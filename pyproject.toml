@@ -183,6 +183,6 @@ ini_options.addopts = [ "--ds=easy_maps.tests.settings", "--reuse-db", "--import
 
 # ==== Coverage ====
 [tool.coverage]
+run.source = [ "easy_maps" ]
 run.omit = [ "*/migrations/*", "*/tests/*" ]
 run.relative_files = true
-run.source = [ "easy_maps" ]
