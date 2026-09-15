@@ -59,6 +59,7 @@ dev = [
 
 [tool.setuptools]
 packages.find.include = [ "easy_maps*" ]
+packages.find.exclude = [ "easy_maps.tests*" ]
 include-package-data = true
 package-data.easy_maps = [ "locale/**/*", "templates/**/*.html" ]
 dynamic.readme = { file = [ "README.rst", "CHANGES.rst" ], content-type = "text/x-rst" }
