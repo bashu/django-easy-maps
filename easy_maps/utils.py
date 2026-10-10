@@ -16,7 +16,7 @@ def importpath(path, error_text=None):
     while parts:
         try:
             result = __import__(".".join(parts), {}, {}, [""])
-        except ImportError as exc:  # noqa: PERF203
+        except ImportError as exc:
             if exception is None:
                 exception = exc
             attrs = parts[-1:] + attrs
