@@ -1,6 +1,4 @@
-from django.conf import (
-    settings,  # noqa: F401 (bound as the appconf holder target below)
-)
+from django.conf import settings  # noqa: F401 (bound as the appconf holder target below)
 
 from appconf import AppConf
 
