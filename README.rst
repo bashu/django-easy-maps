@@ -17,7 +17,7 @@ This app makes it easy to display a map for any given address in
 django_ templates. No manual geocoding, html/js copy-pasting or Django
 model changes are needed.
 
-Maintained by `Basil Shubin <https://github.com/bashu/>`_, and some great
+Maintained by `Basil Shubin <https://github.com/bashu/>`_ (who is available for freelance/contract work), and some great
 `contributors <https://github.com/kmike/django-easy-maps/contributors>`_.
 
 Installation
